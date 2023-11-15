@@ -49,7 +49,7 @@ const HomepageHeader = () => {
               data-animate="fadeInDown"
               data-delay=".6"
             >
-              <a href="/" className="logo-link">
+              <Link to="/" className="logo-link">
                 <h1 className="logo-dark" style={textStyleLight}>
                   BCVS
                 </h1>
@@ -58,11 +58,10 @@ const HomepageHeader = () => {
                 </h1>
                 {/* <img className="logo-dark" src="images/logo.png" srcSet="images/logo2x.png 2x" alt="logo" />
               <img className="logo-light" src="images/logo-full-white.png" srcSet="images/logo-full-white2x.png 2x" alt="logo" /> */}
-              </a>
+              </Link>
             </div>
             <div className="header-nav-toggle">
               <a
-                href="#"
                 className="navbar-toggle"
                 data-menu-toggle="header-menu"
                 onClick={(event) => {
@@ -83,20 +82,20 @@ const HomepageHeader = () => {
               <nav className="header-menu" id="header-menu">
                 <ul className="menu">
                   <li className="menu-item">
-                    <a className="menu-link nav-link active" href="/home">
+                    <Link className="menu-link nav-link active" to="/home">
                       Home
-                    </a>
+                    </Link>
                   </li>
                   <li className="menu-item">
-                    <a className="menu-link nav-link" href="/verify">
+                    <Link className="menu-link nav-link" href="/verify">
                       Verify Certificate
-                    </a>
+                    </Link>
                   </li>
                   {user && (
                     <li className="menu-item">
-                      <a className="menu-link nav-link" href="/certificates">
+                      <Link className="menu-link nav-link" href="/certificates">
                         Certificates
-                      </a>
+                      </Link>
                     </li>
                   )}
                 </ul>
@@ -104,7 +103,7 @@ const HomepageHeader = () => {
                 {user ? (
                   <ul className="menu-btns">
                     <li className="toggle-wrap">
-                      <a href="#" className="toggle-tigger">
+                      <a className="toggle-tigger">
                         <div className="text-thumb text-thumb-xs bg-secondary">
                           [^-^]
                         </div>
@@ -112,12 +111,10 @@ const HomepageHeader = () => {
                       <div className="toggle-class toggle-drop toggle-drop-right">
                         <ul className="drop-list">
                           <li>
-                            <a href="/certificates">Certificates</a>
+                            <Link to="/certificates">Certificates</Link>
                           </li>
                           <li>
-                            <a href="#" onClick={onLogout}>
-                              Log Out
-                            </a>
+                            <span onClick={onLogout}>Log Out</span>
                           </li>
                         </ul>
                       </div>
@@ -126,12 +123,12 @@ const HomepageHeader = () => {
                 ) : (
                   <ul className="menu-btns">
                     <li>
-                      <a
-                        href="/login"
+                      <Link
+                        to="/login"
                         className="btn btn-md btn-auto btn-grad no-change"
                       >
                         <span>Login</span>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 )}

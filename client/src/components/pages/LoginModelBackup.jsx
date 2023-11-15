@@ -67,7 +67,7 @@ const LoginModal = () => {
               <h5 className="ath-heading title">
                 Login in <small className="tc-default">with your Account</small>
               </h5>
-              <form action="#" onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit}>
                 <div className="field-item">
                   <div className="field-wrap">
                     <input

@@ -34,15 +34,15 @@ function OtherPagesHeader({ heading, description, showBanner }) {
         <div className="header-container">
           <div className="header-wrap">
             <div className="header-logo logo">
-              <a href="/" className="logo-link">
+              <Link to="/" className="logo-link">
                 <h1 className="logo-dark" style={textStyleLight}>
                   BCVS
                 </h1>
-              </a>
+              </Link>
             </div>
             <div className="header-nav-toggle">
-              <a
-                href="#"
+              <Link
+                to="#"
                 aria-label="Close menu"
                 className="navbar-toggle"
                 data-menu-toggle="example-menu-07"
@@ -54,7 +54,7 @@ function OtherPagesHeader({ heading, description, showBanner }) {
                 <div className="toggle-line">
                   <span></span>
                 </div>
-              </a>
+              </Link>
             </div>
             <div
               className={`header-navbar menu-mobile ${
@@ -64,29 +64,29 @@ function OtherPagesHeader({ heading, description, showBanner }) {
               <nav className="header-menu" id="example-menu-07">
                 <ul className="menu">
                   <li className="menu-item">
-                    <a className="menu-link nav-link" href="/">
+                    <Link className="menu-link nav-link" to="/">
                       Home
-                    </a>
+                    </Link>
                   </li>
                   <li className="menu-item">
-                    <a className="menu-link nav-link" href="/verify">
+                    <Link className="menu-link nav-link" to="/verify">
                       Verify Certificate
-                    </a>
+                    </Link>
                   </li>
                   <li className="menu-item has-sub">
-                    <a className="menu-link nav-link menu-toggle" href="#">
+                    <Link className="menu-link nav-link menu-toggle" to="#">
                       More
-                    </a>
+                    </Link>
                     <ul className="menu-sub menu-drop">
                       <li className="menu-item">
-                        <a className="menu-link nav-link" href="/about#team">
+                        <Link className="menu-link nav-link" to="/about#team">
                           About
-                        </a>
+                        </Link>
                       </li>
                       <li className="menu-item">
-                        <a className="menu-link nav-link" href="#faq">
+                        <Link className="menu-link nav-link" to="#faq">
                           Team
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </li>
@@ -95,26 +95,26 @@ function OtherPagesHeader({ heading, description, showBanner }) {
                 {user ? (
                   <ul className="menu-btns">
                     <li className="toggle-wrap">
-                      <a href="#" className="toggle-tigger">
+                      <Link to="#" className="toggle-tigger">
                         <div className="text-thumb text-thumb-xs bg-secondary">
                           [^-^]
                         </div>
-                      </a>
+                      </Link>
                       <div className="toggle-class toggle-drop toggle-drop-right">
                         <ul className="drop-list">
                           <li>
-                            <a href="#">My Profile</a>
+                            <Link to="#">My Profile</Link>
                           </li>
                           <li>
-                            <a href="#">Activity</a>
+                            <Link to="#">Activity</Link>
                           </li>
                           <li>
-                            <a href="#">Settings</a>
+                            <Link to="#">Settings</Link>
                           </li>
                           <li>
-                            <a href="#" onClick={onLogout}>
+                            <Link to="#" onClick={onLogout}>
                               Log Out
-                            </a>
+                            </Link>
                           </li>
                         </ul>
                       </div>
@@ -123,26 +123,26 @@ function OtherPagesHeader({ heading, description, showBanner }) {
                 ) : (
                   <ul className="menu-btns">
                     <li>
-                      <a
-                        href="/login"
+                      <Link
+                        to="/login"
                         className="btn btn-md btn-auto btn-grad no-change"
                       >
                         <span>Login</span>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 )}
                 {/* <ul className="menu-btns">
               <li className="toggle-wrap">
-                <a href="#" className="toggle-tigger">
+                <Link to="#" className="toggle-tigger">
                   <div className="text-thumb text-thumb-xs bg-secondary">AI</div>
-                </a>
+                </Link>
                 <div className="toggle-class toggle-drop toggle-drop-right">
                   <ul className="drop-list">
-                    <li><a href="#">My Profile</a></li>
-                    <li><a href="#">Activity</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#" onClick={onLogout}>Log Out</a></li>
+                    <li><Link to="#">My Profile</Link></li>
+                    <li><Link to="#">Activity</Link></li>
+                    <li><Link to="#">Settings</Link></li>
+                    <li><Link to="#" onClick={onLogout}>Log Out</Link></li>
                   </ul>
                 </div>
               </li>
