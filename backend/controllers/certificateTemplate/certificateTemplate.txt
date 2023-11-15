@@ -1,0 +1,13 @@
+// certificateTemplate.js
+// module.exports = function certificateTemplate(data) {
+//   return `
+//     <html>
+//       <body>
+//         <h1>Certificate ID: ${data.certificateId}</h1>
+//         <h2>Name: ${data.matricNo}</h2>
+//         <h3>Email: ${JSON.stringify(data, null, 2)} </h3>
+//         <!-- ... more fields ... -->
+//       </body>
+//     </html>
+//   `;
+// };
