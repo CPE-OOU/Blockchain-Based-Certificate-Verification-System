@@ -49,7 +49,7 @@ const HomepageHeader = () => {
               data-animate="fadeInDown"
               data-delay=".6"
             >
-              <Link to="/" className="logo-link">
+              <a href="/" className="logo-link">
                 <h1 className="logo-dark" style={textStyleLight}>
                   BCVS
                 </h1>
@@ -58,7 +58,7 @@ const HomepageHeader = () => {
                 </h1>
                 {/* <img className="logo-dark" src="images/logo.png" srcSet="images/logo2x.png 2x" alt="logo" />
               <img className="logo-light" src="images/logo-full-white.png" srcSet="images/logo-full-white2x.png 2x" alt="logo" /> */}
-              </Link>
+              </a>
             </div>
             <div className="header-nav-toggle">
               <a
@@ -82,22 +82,34 @@ const HomepageHeader = () => {
               <nav className="header-menu" id="header-menu">
                 <ul className="menu">
                   <li className="menu-item">
-                    <Link className="menu-link nav-link active" to="/home">
+                    <a className="menu-link nav-link active" href="/home">
                       Home
-                    </Link>
+                    </a>
                   </li>
                   <li className="menu-item">
-                    <Link className="menu-link nav-link" href="/verify">
+                    <Link className="menu-link nav-link" to="/verify">
                       Verify Certificate
                     </Link>
                   </li>
                   {user && (
                     <li className="menu-item">
-                      <Link className="menu-link nav-link" href="/certificates">
+                      <Link className="menu-link nav-link" to="/certificates">
                         Certificates
                       </Link>
                     </li>
                   )}
+                  <li className="menu-item has-sub">
+                    <a className="menu-link nav-link menu-toggle" to="#">
+                      More
+                    </a>
+                    <ul className="menu-sub menu-drop">
+                      <li className="menu-item">
+                        <a className="menu-link nav-link" href="#about">
+                          About
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
                 </ul>
 
                 {user ? (
@@ -114,7 +126,7 @@ const HomepageHeader = () => {
                             <Link to="/certificates">Certificates</Link>
                           </li>
                           <li>
-                            <span onClick={onLogout}>Log Out</span>
+                            <Link onClick={onLogout}>Log Out</Link>
                           </li>
                         </ul>
                       </div>

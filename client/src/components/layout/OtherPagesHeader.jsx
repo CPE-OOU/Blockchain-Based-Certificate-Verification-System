@@ -34,11 +34,11 @@ function OtherPagesHeader({ heading, description, showBanner }) {
         <div className="header-container">
           <div className="header-wrap">
             <div className="header-logo logo">
-              <Link to="/" className="logo-link">
+              <a href="/" className="logo-link">
                 <h1 className="logo-dark" style={textStyleLight}>
                   BCVS
                 </h1>
-              </Link>
+              </a>
             </div>
             <div className="header-nav-toggle">
               <Link
@@ -64,9 +64,9 @@ function OtherPagesHeader({ heading, description, showBanner }) {
               <nav className="header-menu" id="example-menu-07">
                 <ul className="menu">
                   <li className="menu-item">
-                    <Link className="menu-link nav-link" to="/">
+                    <a className="menu-link nav-link" href="/">
                       Home
-                    </Link>
+                    </a>
                   </li>
                   <li className="menu-item">
                     <Link className="menu-link nav-link" to="/verify">
@@ -74,19 +74,14 @@ function OtherPagesHeader({ heading, description, showBanner }) {
                     </Link>
                   </li>
                   <li className="menu-item has-sub">
-                    <Link className="menu-link nav-link menu-toggle" to="#">
+                    <a className="menu-link nav-link menu-toggle" to="#">
                       More
-                    </Link>
+                    </a>
                     <ul className="menu-sub menu-drop">
                       <li className="menu-item">
-                        <Link className="menu-link nav-link" to="/about#team">
+                        <a className="menu-link nav-link" href="#about">
                           About
-                        </Link>
-                      </li>
-                      <li className="menu-item">
-                        <Link className="menu-link nav-link" to="#faq">
-                          Team
-                        </Link>
+                        </a>
                       </li>
                     </ul>
                   </li>
@@ -103,13 +98,7 @@ function OtherPagesHeader({ heading, description, showBanner }) {
                       <div className="toggle-class toggle-drop toggle-drop-right">
                         <ul className="drop-list">
                           <li>
-                            <Link to="#">My Profile</Link>
-                          </li>
-                          <li>
-                            <Link to="#">Activity</Link>
-                          </li>
-                          <li>
-                            <Link to="#">Settings</Link>
+                            <Link to="#">Certificates</Link>
                           </li>
                           <li>
                             <Link to="#" onClick={onLogout}>

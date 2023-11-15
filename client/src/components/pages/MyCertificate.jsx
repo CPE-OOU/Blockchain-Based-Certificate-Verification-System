@@ -15,10 +15,12 @@ import { BACKEND_URL } from "../../config/contants";
 // dotenv.config({ path: "../../../config/config.env" });
 
 function Certificates() {
-  const {
-    user: { token },
-  } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
 
+  let token;
+  if (user) {
+    token = user.token;
+  }
   const decodedToken = jwtDecode(token);
   console.log(decodedToken.id);
 

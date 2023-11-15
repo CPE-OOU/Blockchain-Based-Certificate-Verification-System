@@ -26,9 +26,12 @@ const spinnerStyle = {
 };
 
 function Verify() {
-  const {
-    user: { token },
-  } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
+
+  let token;
+  if (user) {
+    token = user.token;
+  }
 
   const [fileState, setFileState] = useState();
   const [codeState, setCodeState] = useState("");

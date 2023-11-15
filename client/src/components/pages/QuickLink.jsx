@@ -5,8 +5,6 @@ import Countdown from "./Countdown";
 const QuickLink = () => {
   return (
     <>
-      <Countdown></Countdown>
-
       <section className="section bg-white" id="about">
         <div className="container">
           <div className="nk-block nk-block-lg nk-block-features-s2">
