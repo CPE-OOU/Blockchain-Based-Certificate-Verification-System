@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { confirmAlert } from "react-confirm-alert"; // Import confirmAlert from react-confirm-alert
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { BACKEND_URL } from "../../config/contants";
 
 function NewCertificate() {
   const {
@@ -59,11 +60,9 @@ function NewCertificate() {
   const handleModalConfirm = async () => {
     // Send a POST request to your API
     try {
-      const response = await axios.post(
-        "http://localhost:5001/api/v1/certificates/",
-        form,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await axios.post(`${BACKEND_URL}/certificates/`, form, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       // Check if response or response.data is undefined
       if (!response || !response.data) {

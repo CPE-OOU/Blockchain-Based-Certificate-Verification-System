@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Modal, Button, Spinner } from "react-bootstrap";
+import { BACKEND_URL } from "../../config/contants";
 
 const spinnerOverlayStyle = {
   position: "fixed",
@@ -69,7 +70,7 @@ function Verify() {
 
       try {
         const response = await axios.get(
-          `http://localhost:5001/api/v1/certificates/verify/certificatehash/${fileHash}`,
+          `${BACKEND_URL}/certificates/verify/certificatehash/${fileHash}`,
           {
             headers: { Authorization: `Bearer ${token}` },
             timeout: 30000, // Wait for 5 seconds
@@ -111,7 +112,7 @@ function Verify() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5001/api/v1/certificates/verify/certificateid/${certificateId}`,
+        `${BACKEND_URL}certificates/verify/certificateid/${certificateId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
           timeout: 30000, // Wait for 30 seconds

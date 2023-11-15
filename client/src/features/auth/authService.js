@@ -1,33 +1,31 @@
-import axios from 'axios'
+import axios from "axios";
+import { BACKEND_URL } from "../../config/contants";
 
-const API_URL = 'http://localhost:5001/api/v1/'
+const register = async (userData) => {
+  const response = await axios.post(`${BACKEND_URL}/auth/register`, userData);
 
-const register  = async (userData) => {
-            const response = await axios.post(API_URL+'auth/register', userData)
-    
-            if(response.data) {
-                localStorage.setItem('user', JSON.stringify(response.data))
-            }
-            return response.data
-        }
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
+  return response.data;
+};
 
-const login  = async (userData) => {
-            const response = await axios.post(API_URL+'auth/login', userData)
-    
-            if(response.data) {
-                localStorage.setItem('user', JSON.stringify(response.data))
-            }
-            return response.data
-        }
+const login = async (userData) => {
+  const response = await axios.post(`${BACKEND_URL}/auth/login`, userData);
 
-// Logout user        
-const logout = () => localStorage.removeItem('user')
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
+  return response.data;
+};
 
+// Logout user
+const logout = () => localStorage.removeItem("user");
 
 const authService = {
-    register,
-    login,
-    logout
-}
+  register,
+  login,
+  logout,
+};
 
-export default authService
+export default authService;

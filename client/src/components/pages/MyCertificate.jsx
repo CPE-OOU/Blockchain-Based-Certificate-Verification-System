@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios"; // You can use any library to make HTTP requests
 
 import { jwtDecode } from "jwt-decode"; // Corrected import
+import { BACKEND_URL } from "../../config/contants";
 
 // require("dotenv").config();
 
@@ -25,7 +26,7 @@ function Certificates() {
 
   const [certificates, setCertificates] = useState([]);
 
-  const baseURL = `http://localhost:5001/api/v1/certificates/userid/${decodedToken.id}`;
+  const baseURL = `${BACKEND_URL}/certificates/userid/${decodedToken.id}`;
 
   useEffect(() => {
     axios

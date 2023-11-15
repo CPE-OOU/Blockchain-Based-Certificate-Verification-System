@@ -2,18 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import { BACKEND_URL } from "../../config/contants";
 
 function Certificates() {
   const [certificates, setCertificates] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const baseURL = "http://localhost:5001/api/v1/certificates/";
+  const baseURL = `${BACKEND_URL}/certificates/`;
   const {
     user: { token },
   } = useSelector((state) => state.auth);
 
   useEffect(() => {
     axios
-      .get(baseURL)
+      .get(baseURL, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         setCertificates(response.data.data);
       })
