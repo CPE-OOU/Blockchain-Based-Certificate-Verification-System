@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function HomepageBanner({ heading, description }) {
   return (
@@ -11,7 +12,7 @@ function HomepageBanner({ heading, description }) {
               <div className="row align-items-center justify-content-center">
                 <div className="col-lg-5 order-lg-last">
                   <div
-                    className="banner-gfx banner-gfx-re-s1 animated"
+                    className="banner-gfx banner-gfx-re-s1 "
                     data-animate="fadeInUp"
                     data-delay=".9"
                   >
@@ -22,7 +23,7 @@ function HomepageBanner({ heading, description }) {
                   <div className="banner-caption cpn tc-light">
                     <div className="cpn-head">
                       <h1
-                        className="title animated"
+                        className="title "
                         data-animate="fadeInUp"
                         data-delay="1"
                       >
@@ -32,11 +33,7 @@ function HomepageBanner({ heading, description }) {
                       </h1>
                     </div>
                     <div className="cpn-text">
-                      <p
-                        className="animated"
-                        data-animate="fadeInUp"
-                        data-delay="1.1"
-                      >
+                      <p className="" data-animate="fadeInUp" data-delay="1.1">
                         By leveraging technology to store certificates on a
                         platform the information becomes both immutable and
                         transparent
@@ -44,16 +41,16 @@ function HomepageBanner({ heading, description }) {
                     </div>
                     <div className="cpn-action">
                       <div
-                        className="cpn-btns animated"
+                        className="cpn-btns "
                         data-animate="fadeInUp"
                         data-delay="1.2"
                       >
-                        <a className="btn btn-grad" href="/verify">
+                        <Link className="btn btn-grad" to="/verify">
                           Verify Certificate Issued
-                        </a>
+                        </Link>
                       </div>
                       <ul
-                        className="cpn-links animated"
+                        className="cpn-links "
                         data-animate="fadeInUp"
                         data-delay="1.3"
                       >

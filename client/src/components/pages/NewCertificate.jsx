@@ -27,10 +27,27 @@ function NewCertificate() {
   };
 
   const handleFormSubmit = () => {
+    // Check if all fields are filled
+    if (
+      !form.matricNo ||
+      !form.lastname ||
+      !form.firstname ||
+      !form.middlename ||
+      !form.degreeAwarded ||
+      !form.degreeType ||
+      !form.classOfDegree ||
+      !form.courseName ||
+      !form.department ||
+      !form.yearOfCompletion
+    ) {
+      toast.error("Please fill all fields.");
+      return;
+    }
+
     // Open the confirmation dialog instead of sending the API request
     confirmAlert({
-      title: "Confirm to submit",
-      message: "Are you sure to do this.",
+      title: "Confirm to Issue Certificate",
+      message: "Are you sure you want to continue !.",
       childrenElement: () => (
         <div>
           <h3>Form Data:</h3>
@@ -41,7 +58,7 @@ function NewCertificate() {
           <p>Degree Awarded: {form.degreeAwarded}</p>
           <p>Degree Type: {form.degreeType}</p>
           <p>Class of Degree: {form.classOfDegree}</p>
-          <p>Course Name: {form.courseName}</p>
+          <p>Programme Name: {form.courseName}</p>
           <p>Department: {form.department}</p>
           <p>Year of Completion: {form.yearOfCompletion}</p>
         </div>
@@ -219,7 +236,7 @@ function NewCertificate() {
                       type="text"
                       name="courseName"
                       className="input-bordered required"
-                      placeholder="Course Name"
+                      placeholder="Programme Name"
                       value={form.courseName || ""}
                       onChange={handleInputChange}
                       required

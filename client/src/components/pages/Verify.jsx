@@ -8,21 +8,21 @@ import { BACKEND_URL } from "../../config/contants";
 
 const spinnerOverlayStyle = {
   position: "fixed",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   top: 0,
   left: 0,
   width: "100%",
   height: "100%",
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
   zIndex: 9999,
-  backgroundColor: "#f6fafd",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
 };
 
 const spinnerStyle = {
-  color: "#fff",
   width: "3rem",
   height: "3rem",
+  color: "#fff",
 };
 
 function Verify() {
@@ -105,7 +105,7 @@ function Verify() {
     event.preventDefault();
 
     if (!codeState) {
-      toast.error("Please enter a code.");
+      toast.error("Please enter a cerificate ID.");
       return;
     }
 
@@ -115,7 +115,7 @@ function Verify() {
 
     try {
       const response = await axios.get(
-        `${BACKEND_URL}certificates/verify/certificateid/${certificateId}`,
+        `${BACKEND_URL}/certificates/verify/certificateid/${certificateId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
           timeout: 30000, // Wait for 30 seconds

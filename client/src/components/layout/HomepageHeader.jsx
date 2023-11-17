@@ -29,14 +29,7 @@ const HomepageHeader = () => {
     fontWeight: "bold",
   };
 
-  console.log({
-    toggleSidebar,
-    class: `header-navbar animated fadeInDown menu-mobile ${
-      toggleSidebar ? "menu-shown" : "menu-shown"
-    }`,
-  });
-
-  const menuToggleClassName = `header-navbar animated fadeInDown menu-mobile ${
+  const menuToggleClassName = `header-navbar fadeInDown menu-mobile ${
     toggleSidebar ? "menu-shown" : ""
   }`;
   return (
@@ -45,7 +38,7 @@ const HomepageHeader = () => {
         <div className="header-container container">
           <div className="header-wrap">
             <div
-              className="header-logo logo animated fadeInDown"
+              className="header-logo logo fadeInDown"
               data-animate="fadeInDown"
               data-delay=".6"
             >

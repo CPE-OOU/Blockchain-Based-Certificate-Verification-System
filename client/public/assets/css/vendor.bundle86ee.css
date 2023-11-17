@@ -23327,7 +23327,7 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 .animate.key {
     animation-duration: 0.6s;
     z-index: 9;
-    visibility: hidden;
+    /* visibility: hidden; */
     animation-fill-mode: both
 }
 
@@ -24927,7 +24927,7 @@ html[xmlns] .flexslider .slides {
 }
 
 .flex-direction-nav {
-    *height: 0
+    height: 0;
 }
 
 .flex-direction-nav a {
@@ -25038,7 +25038,6 @@ html[xmlns] .flexslider .slides {
     margin: 0 6px;
     display: inline-block;
     zoom: 1;
-    *display: inline
 }
 
 .flex-control-paging li a {

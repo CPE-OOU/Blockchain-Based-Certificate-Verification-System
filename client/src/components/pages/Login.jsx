@@ -1,29 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import { register, reset } from "../../features/auth/authSlice";
-
-const spinnerOverlayStyle = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  zIndex: 9999,
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const spinnerStyle = {
-  color: "#fff",
-  width: "3rem",
-  height: "3rem",
-};
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -45,12 +26,14 @@ const Login = () => {
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      setLoading(false);
     }
 
     //redirect when logged in
     if (isSuccess || user) {
       toast.success("Login Sucessfull!!");
       navigate("/certificates");
+      setLoading(false);
     }
 
     dispatch(reset());
@@ -64,11 +47,18 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (!email) {
+      toast.error("Please enter email");
+      return;
+    }
+    if (!password) {
+      toast.error("Please enter password.");
+      return;
+    }
 
-    if (!email || !password) {
-      toast.error("Please enter both email and password.");
+    if (!email.includes("@")) {
+      toast.error("Invalid email. Please check your input.");
       return;
     }
 
@@ -76,19 +66,42 @@ const Login = () => {
       email,
       password,
     };
-
     setLoading(true);
 
-    setTimeout(() => {
+    try {
       dispatch(login(userData));
+    } catch (error) {
+      debugger;
+      if (
+        error.message === "Network Error" ||
+        error.message.includes("ErrConnect")
+      ) {
+        toast.error(
+          "Unable to connect to the server. Please check your internet connection and try again."
+        );
+      } else if (error.message.includes("Request failed status code 401")) {
+        toast.error("Incorrect email or password. Please try again.");
+      } else {
+        toast.error("An error occurred. Please try again later.");
+      }
       setLoading(false);
-    }, 2000); // 2 seconds delay
+      return;
+    }
+
+    setLoading(false);
   };
 
   if (loading) {
     return (
-      <div style={spinnerOverlayStyle}>
-        <Spinner animation="border" style={spinnerStyle} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner animation="border" />
       </div>
     );
   }
@@ -96,15 +109,22 @@ const Login = () => {
   return (
     <div className="ath-container">
       <div className="ath-header text-center">
-        <a href="index.html" className="ath-logo">
+        <div
+          onClick={(e) => {
+            console.log("bvcs logo");
+            e.preventDefault();
+            navigate("/");
+          }}
+          className="ath-logo"
+        >
           <h1>BCVS</h1>
-        </a>
+        </div>
       </div>
       <div className="ath-body">
         <h5 className="ath-heading title">
           Sign in <small className="tc-default">with your Account</small>
         </h5>
-        <form action="#" onSubmit={handleSubmit}>
+        <form>
           <div className="field-item">
             <div className="field-wrap">
               <input
@@ -129,8 +149,20 @@ const Login = () => {
               />
             </div>
           </div>
-          <div className="text-center">
-            <button className="btn btn-primary btn-block btn-md">
+          <div
+            className="text-center"
+            onClick={() => {
+              console.log("Parent dey observer");
+            }}
+          >
+            <button
+              className="btn btn-primary btn-block btn-md"
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSubmit();
+              }}
+            >
               Sign In
             </button>
           </div>

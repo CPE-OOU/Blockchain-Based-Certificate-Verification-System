@@ -57,9 +57,9 @@ const QuickLink = () => {
                     data-animate="fadeInUp"
                     data-delay=".6"
                   >
-                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
+                    {/* Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
                     odit aut fugit, sed quia consequuntur magni dolores eos qui
-                    ratione voluptatem sequi nesciun quis nostrut.
+                    ratione voluptatem sequi nesciun quis nostrut. */}
                   </p>
                 </div>
               </div>
@@ -118,11 +118,11 @@ const QuickLink = () => {
                   data-delay=".5"
                 >
                   <div className="feature-icon feature-icon-lg-s1 m-lg-0">
-                    <img src="images/icons/icon-e-light.png" alt="feature" />
+                    <img src="images/icons/icon-f-light.png" alt="feature" />
                   </div>
                   <div className="feature-text feature-text-s2">
                     <p>
-                      efficiency - Enabling real time certificate verification
+                      Efficiency - Enabling real time certificate verification
                       would greatly enhance efficiency while simultaneously
                       reducing costs.
                     </p>
@@ -136,7 +136,7 @@ const QuickLink = () => {
                   data-delay=".6"
                 >
                   <div className="feature-icon feature-icon-lg-s1 m-lg-0">
-                    <img src="images/icons/icon-f-light.png" alt="feature" />
+                    <img src="images/icons/icon-e-light.png" alt="feature" />
                   </div>
                   <div className="feature-text feature-text-s2">
                     <p>
@@ -202,10 +202,10 @@ const QuickLink = () => {
                 >
                   <h4 className="title title-md">Enhance Security</h4>
                   <p>
-                    The automation development provides rem aperiam, et quasi
-                    architecto beatae vitae dicta sunt explicabo. Nemo enim
-                    ipsam voluptatem quia voluptas sit aspernatur aut odit aut
-                    fugit molestiae illum qui dolorem eum.
+                    blockchain technology provides a highly secure, tamper-proof
+                    system where trust is established through mass collaboration
+                    and clever code rather than through a powerful institution
+                    that does the authentication and the settlement
                   </p>
                   <ul className="list list-dot">
                     <li>Accessibility.</li>
@@ -296,7 +296,7 @@ const QuickLink = () => {
                   </div>
                   <div className="feature-text">
                     <h4 className="title title-md title-dark">
-                      Improve Accessibility:
+                      Improve Accessibility
                     </h4>
                     <p>
                       Create a user-friendly interface that allows individuals
@@ -318,7 +318,7 @@ const QuickLink = () => {
                   </div>
                   <div className="feature-text">
                     <h4 className="title title-md title-dark">
-                      Address Certificate forgery:
+                      Address Certificate forgery
                     </h4>
                     <p>Address Legal cases of certificate forgery challenges</p>
                   </div>

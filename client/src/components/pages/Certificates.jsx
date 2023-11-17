@@ -3,10 +3,12 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import { BACKEND_URL } from "../../config/contants";
+import { Spinner } from "react-bootstrap"; // Import Spinner from react-bootstrap
 
 function Certificates() {
   const [certificates, setCertificates] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true); // Add this line
   const baseURL = `${BACKEND_URL}/certificates/`;
   const user = useSelector((state) => state.auth.user);
 
@@ -19,9 +21,11 @@ function Certificates() {
       .get(baseURL, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         setCertificates(response.data.data);
+        setLoading(false); // Add this line
       })
       .catch((error) => {
         console.error("Error fetching certificates:", error);
+        setLoading(false); // Add this line
       });
   }, []);
 
@@ -74,6 +78,21 @@ function Certificates() {
       ? certificate.matricNo.toLowerCase().includes(searchTerm.toLowerCase())
       : false
   );
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner animation="border" />
+      </div>
+    );
+  }
 
   return (
     <section className="section bg-light-alt">
