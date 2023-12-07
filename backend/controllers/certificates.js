@@ -327,13 +327,11 @@ exports.createCertificate = asyncHandler(async (req, res, next) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    const html = certificateTemplate({ ...req.body, certificateId });
+    const doc = certificateTemplate({ ...req.body, certificateId });
 
-    await page.setContent(html);
-    await page.waitForNetworkIdle();
-    await page.pdf({ path: pdfPath, printBackground: true, format: "A4" });
-
-    const fileData = fs.readFileSync(pdfPath);
+      const fileData = await new Promise((resolve, reject) => {
+        doc.pipe(fs.createWriteStream(pdfPath).on('finish', () => resolve(fs.readFileSync(pdfPath))).on('error', reject));
+      });
     const hash = crypto.createHash("sha256");
     hash.update(fileData);
     const fileHash = hash.digest("hex");
