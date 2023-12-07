@@ -44,7 +44,5 @@ doc.text(`Year of Completion: ${data.yearOfCompletion}`, doc.page.width / 2, 370
 // Signature
 doc.text("Signature: [Signature]", doc.page.width / 2, 420, { align: "center" });
 
-// Generate PDF file
-doc.pipe(fs.createWriteStream('certificate.pdf'));
-return doc.end();
+return doc
 };
