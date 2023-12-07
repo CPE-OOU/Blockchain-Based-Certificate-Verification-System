@@ -332,6 +332,8 @@ exports.createCertificate = asyncHandler(async (req, res, next) => {
       const fileData = await new Promise((resolve, reject) => {
         doc.pipe(fs.createWriteStream(pdfPath).on('finish', () => resolve(fs.readFileSync(pdfPath))).on('error', reject));
       });
+
+    doc.end();
     const hash = crypto.createHash("sha256");
     hash.update(fileData);
     const fileHash = hash.digest("hex");
