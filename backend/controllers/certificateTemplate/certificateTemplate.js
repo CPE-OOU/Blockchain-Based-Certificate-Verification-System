@@ -46,5 +46,5 @@ doc.text("Signature: [Signature]", doc.page.width / 2, 420, { align: "center" })
 
 // Generate PDF file
 doc.pipe(fs.createWriteStream('certificate.pdf'));
-doc.end();
+return doc.end();
 };
