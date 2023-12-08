@@ -3,7 +3,7 @@ const asyncHandler = require("../middleware/async");
 const CertificateModel = require("../model/Certificate");
 
 const certificateTemplate = require("./certificateTemplate/certificateTemplate");
-const { default: puppeteer } = require("puppeteer");
+// const { default: puppeteer } = require("puppeteer");
 
 const fs = require("fs");
 const crypto = require("crypto");
@@ -315,7 +315,7 @@ exports.createCertificate = asyncHandler(async (req, res, next) => {
   if (existingCertificate) {
     return res.status(400).json({
       success: false,
-      message: "Certificate already exists",
+      message: "Certificate already existsssssss",
     });
   }
 
@@ -324,16 +324,25 @@ exports.createCertificate = asyncHandler(async (req, res, next) => {
     const pdfPath = `./certifications/${certificateId}.pdf`;
     const file = pdfPath;
 
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
+    const pdfBytes = await certificateTemplate({
+      ...req.body,
+      certificateId,
+      pdfPath,
+    });
+    // console.log(pdfBytes);
+    // fs.writeFileSync(file, pdfBytes);
+    await new Promise((resolve, reject) => {
+      const writeStream = fs.createWriteStream(pdfPath);
+      pdfBytes.pipe(writeStream);
+      pdfBytes.end();
+      writeStream.on("finish", resolve);
+      writeStream.on("error", reject);
+    });
 
-    const doc = certificateTemplate({ ...req.body, certificateId });
+    const fileData = fs.readFileSync(pdfPath);
 
-      const fileData = await new Promise((resolve, reject) => {
-        doc.pipe(fs.createWriteStream(pdfPath).on('finish', () => resolve(fs.readFileSync(pdfPath))).on('error', reject));
-      });
+    pdfBytes.end();
 
-    doc.end();
     const hash = crypto.createHash("sha256");
     hash.update(fileData);
     const fileHash = hash.digest("hex");
