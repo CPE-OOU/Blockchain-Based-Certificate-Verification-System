@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Corrected import
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import { BACKEND_URL } from "../../config/contants";
@@ -11,11 +13,29 @@ function Certificates() {
   const [loading, setLoading] = useState(true); // Add this line
   const baseURL = `${BACKEND_URL}/certificates/`;
   const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
 
   let token;
+  let decoded_token;
+  let role;
   if (user) {
-    token = user.token;
+    console.log(user);
+    // let userObject = JSON.parse(user);
+
+    // token = user.token;
+
+    // console.log(userObject.token);
+    // decoded_token = jwtDecode(user.token);
+    // console.log(decoded_token.role);
+
+    // if (decoded_token.role != "admin") {
+    //   navigate("/my-certificates");
+    // }
+    // console.log(typeof user);
+
+    // alert(jwtDecode(console.log(jwtDecode(JSON.stringify(token)).role)).role);
   }
+
   useEffect(() => {
     axios
       .get(baseURL, { headers: { Authorization: `Bearer ${token}` } })
@@ -44,6 +64,11 @@ function Certificates() {
             <em class="ti ti-close"></em>
           </td>
         ),
+    },
+    {
+      name: "Certificate ID",
+      selector: (row) => row.certificateId,
+      sortable: true,
     },
     { name: "Matric No", selector: (row) => row.matricNo, sortable: true },
     {

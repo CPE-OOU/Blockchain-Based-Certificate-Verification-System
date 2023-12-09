@@ -3,7 +3,7 @@ import { BACKEND_URL } from "../../config/contants";
 
 const register = async (userData) => {
   const response = await axios.post(`${BACKEND_URL}/auth/register`, userData, {
-    timeout: 5000,
+    timeout: 35000, // 35 secs
   });
 
   if (response.data) {
@@ -14,7 +14,7 @@ const register = async (userData) => {
 
 const login = async (userData) => {
   const response = await axios.post(`${BACKEND_URL}/auth/login`, userData, {
-    timeout: 5000,
+    timeout: 35000, // 35sec
   });
 
   if (response.data) {

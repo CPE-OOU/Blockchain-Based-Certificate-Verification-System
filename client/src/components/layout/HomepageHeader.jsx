@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import LoginModal from "../pages/LoginModal";
+// import LoginModal from "../pages/LoginModal";
 import HomepageBanner from "./HompageBanner";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -145,7 +145,7 @@ const HomepageHeader = () => {
         </div>
       </div>
       <HomepageBanner />
-      <LoginModal />
+      {/* <LoginModal /> */}
     </>
   );
 };

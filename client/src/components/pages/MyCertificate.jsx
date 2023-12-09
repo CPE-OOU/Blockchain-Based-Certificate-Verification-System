@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from "react";
 
 import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios"; // You can use any library to make HTTP requests
-
+import DataTable from "react-data-table-component";
 import { jwtDecode } from "jwt-decode"; // Corrected import
 import { BACKEND_URL } from "../../config/contants";
+import { Spinner } from "react-bootstrap"; // Import Spinner from react-bootstrap
 
 // require("dotenv").config();
 
@@ -16,15 +18,22 @@ import { BACKEND_URL } from "../../config/contants";
 
 function Certificates() {
   const user = useSelector((state) => state.auth.user);
+  // const [certificates, setCertificates] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true); // Add this line
+  // const baseURL = `${BACKEND_URL}/certificates/`;
+  // const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
 
   let token;
+  let decodedToken;
   if (user) {
     token = user.token;
+    decodedToken = jwtDecode(token);
+    console.log(decodedToken);
+    console.log(token);
+    console.log(decodedToken.role);
   }
-  const decodedToken = jwtDecode(token);
-  console.log(decodedToken.id);
-
-  // use api to get certificate using userID
 
   const [certificates, setCertificates] = useState([]);
 
@@ -32,18 +41,87 @@ function Certificates() {
 
   useEffect(() => {
     axios
-      .get(baseURL) // Replace with your actual API endpoint
+      .get(baseURL, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         setCertificates(response.data.data);
+        setLoading(false); // Add this line
       })
       .catch((error) => {
         console.error("Error fetching certificates:", error);
+        setLoading(false); // Add this line
       });
   }, []);
 
-  // console.log(certificates)
+  const columns = [
+    {
+      name: "Status",
+      cell: (row) =>
+        row.certificateStatus === "Valid" ? (
+          <td class="tranx-status tranx-status-approved">
+            <span class="d-none">Approved</span>
+            <em class="ti ti-check"></em>
+          </td>
+        ) : (
+          <td class="tranx-status tranx-status-canceled">
+            <span class="d-none">Canceled</span>
+            <em class="ti ti-close"></em>
+          </td>
+        ),
+    },
+    {
+      name: "Certificate ID",
+      selector: (row) => row.certificateId,
+      sortable: true,
+    },
+    { name: "Matric No", selector: (row) => row.matricNo, sortable: true },
+    {
+      name: "Name",
+      selector: (row) => `${row.lastname} ${row.firstname}`,
+      sortable: true,
+    },
+    { name: "Department", selector: (row) => row.department, sortable: true },
+    { name: "Degree", selector: (row) => row.degreeType, sortable: true },
+    {
+      name: "Class of Degree",
+      selector: (row) => row.classOfDegree,
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <td className="table-des">
+          {/* <a className="doc-download btn-auto btn-sm" href="#">
+            <em className="ti ti-download"></em> Download{" "}
+          </a> */}
+          <a href="#" className="btn btn-success btn-sm">
+            <em className="ti ti-download"></em>
+            download
+          </a>
+        </td>
+      ),
+    },
+  ];
 
-  if (!certificates) return null;
+  const filteredCertificates = certificates.filter((certificate) =>
+    certificate.matricNo
+      ? certificate.matricNo.toLowerCase().includes(searchTerm.toLowerCase())
+      : false
+  );
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner animation="border" />
+      </div>
+    );
+  }
 
   return (
     <section className="section bg-light-alt">
@@ -51,125 +129,27 @@ function Certificates() {
         <div className="nk-block">
           <div className="row justify-content-cente align-items-cente">
             <div className="col-lg-12">
-              <h2 className="title">My Certificate(s)</h2>
-              {/* <table className="">
-            <thead className="bg-primary">
-          <tr>
-            <th></th>
-            <th className="data-col data-col-one text-center index sorting sorting_asc ">Matric No</th>
-            <th className="data-col data-col-one text-center index sorting sorting_asc" >Name</th>
-            <th className="data-col data-col-one text-center index sorting sorting_asc">sss</th>
-          </tr>
-      
-            </thead>
-              <tbody>
-                <tr>
-                  <td class="tranx-status tranx-status-approved"><span class="d-none">Approved</span><em class="ti ti-check"></em></td>
-                  <td className="table-head">Public Sale Starts</td>
-                  <td className="table-des">15th Nov 2022 12:00 GMT</td>
-                  <td className="table-des">
-                    <a className="doc-download  btn-sm" href="#"><em className="ti ti-import"></em> Pdf</a>
-                    <a href="#" class="btn btn-danger btn-auto btn-sm"><em className="ti ti-import"></em>Small</a>
-                  </td>
-                </tr>
-                <tr className='even'>
-                
-                <td class="tranx-status tranx-status-pending"><span class="d-none">Pending</span><em class="ti ti-alert"></em></td>
-                  <td className="table-head">Public Sale Starts</td>
-                  <td className="table-des">15th Nov 2022 12:00 GMT</td>
-                  <td className="table-des">
-                    <a className="doc-download btn-sm" href="#"><em className="ti ti-import"></em> Pdf</a>
-                    <a href="#" class="btn btn-danger btn-auto btn-sm"><em className="ti ti-import"></em>Small</a>
-                    
-                  </td>
-                </tr>
-                <tr>
-                
-                <td class="tranx-status tranx-status-canceled"><span class="d-none">Canceled</span><em class="ti ti-close"></em></td>
-                  <td className="table-head">Public Sale Starts</td>
-                  <td className="table-des">15th Nov 2022 12:00 GMT</td>
-                  <td className="table-des">
-                    <a className="doc-download  btn-sm" href="#"><em className="ti ti-import"></em> Pdf</a>
-                    <a href="#" class="btn btn-danger btn-auto btn-sm"><em className="ti ti-import"></em>Small</a>
-                  </td>
-                </tr>
-              
-              </tbody>
-            </table> */}
-
-              <table className="table table-bordered">
-                <thead className="bg-primary">
-                  <tr>
-                    <th></th>
-                    <th className="data-col data-col-one text-center index sorting sorting_asc ">
-                      Matric No
-                    </th>
-                    <th className="data-col data-col-one text-center index sorting sorting_asc">
-                      Name
-                    </th>
-                    <th className="data-col data-col-one text-center index sorting sorting_asc">
-                      Department
-                    </th>
-                    <th className="data-col data-col-one text-center index sorting sorting_asc">
-                      Degree
-                    </th>
-                    <th className="data-col data-col-one text-center index sorting sorting_asc">
-                      Class of Degree
-                    </th>
-                    <th className="data-col data-col-one text-center index sorting sorting_asc">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {certificates.map((certificate) => (
-                    <tr key={certificate._id}>
-                      {" "}
-                      {/* Replace '_id' with your actual id field */}
-                      {certificate.certificateStatus === "Valid" ? (
-                        <td class="tranx-status tranx-status-approved">
-                          <span class="d-none">Approved</span>
-                          <em class="ti ti-check"></em>
-                        </td>
-                      ) : (
-                        <td class="tranx-status tranx-status-canceled">
-                          <span class="d-none">Canceled</span>
-                          <em class="ti ti-close"></em>
-                        </td>
-                      )}
-                      <td className="table-head">{certificate.matricNo}</td>{" "}
-                      {/* Replace 'matricNo' with your actual field */}
-                      <td className="table-head">{certificate.name}</td>{" "}
-                      {/* Replace 'name' with your actual field */}
-                      <td className="table-des">
-                        {certificate.department}
-                      </td>{" "}
-                      {/* Replace 'department' with your actual field */}
-                      <td className="table-des">{certificate.degree}</td>{" "}
-                      {/* Replace 'degree' with your actual field */}
-                      <td className="table-des">
-                        {certificate.classOfDegree}
-                      </td>{" "}
-                      {/* Replace 'classOfDegree' with your actual field */}
-                      <td className="table-des">
-                        <a className="doc-download btn-sm" href="#">
-                          <em className="ti ti-import"></em> Pdf{" "}
-                        </a>
-                        <a href="#" className="btn btn-danger btn-auto btn-sm">
-                          <em className="ti ti-import"></em>Small
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <h2 className="title">
+                May Certificates:
+                {user ? <span> {decodedToken.name} </span> : null}
+              </h2>
+              <div class="text-right"></div>
+              <input
+                type="text"
+                placeholder="Search by Matric No"
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <DataTable
+                title="Certificates"
+                columns={columns}
+                data={filteredCertificates}
+                pagination
+              />
             </div>
           </div>
         </div>
       </div>
     </section>
-
-    // ... (Your existing code)
   );
 }
 

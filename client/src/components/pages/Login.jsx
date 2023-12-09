@@ -31,9 +31,9 @@ const Login = () => {
 
     //redirect when logged in
     if (isSuccess || user) {
-      toast.success("Login Sucessfull!!");
       navigate("/certificates");
       setLoading(false);
+      toast.success("Login Sucessfull!!");
     }
 
     dispatch(reset());

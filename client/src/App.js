@@ -12,7 +12,7 @@ import NewCertificate from "./components/pages/NewCertificate";
 import Certificates from "./components/pages/Certificates";
 import Verify from "./components/pages/Verify";
 import Register from "./components/pages/Register";
-import LoginModal from "./components/pages/LoginModal";
+// import LoginModal from "./components/pages/LoginModal";
 import Login from "./components/pages/Login";
 import About from "./components/pages/About";
 import MyCertificate from "./components/pages/MyCertificate";
@@ -83,7 +83,7 @@ const App = () => {
             }
           />
           <Route
-            path="/mycertificates"
+            path="/my-certificates"
             element={
               <Layout>
                 <MyCertificate />

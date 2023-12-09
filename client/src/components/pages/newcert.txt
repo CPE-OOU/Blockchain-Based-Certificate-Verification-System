@@ -3,24 +3,21 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { confirmAlert } from "react-confirm-alert"; // Import confirmAlert from react-confirm-alert
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import { BACKEND_URL } from "../../config/contants";
 import { Spinner } from "react-bootstrap"; // Import Spinner from react-bootstrap
 
 function NewCertificate() {
   const user = useSelector((state) => state.auth.user);
-
   let token;
   if (user) {
     token = user.token;
   }
 
-  // Create a state variable as an empty object
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // Function to handle input change
   const handleInputChange = (event) => {
     setForm({
       ...form,
@@ -29,7 +26,6 @@ function NewCertificate() {
   };
 
   const handleFormSubmit = () => {
-    // Check if all fields are filled
     if (
       !form.matricNo ||
       !form.lastname ||
@@ -47,8 +43,6 @@ function NewCertificate() {
     }
 
     setLoading(true);
-
-    // Open the confirmation dialog instead of sending the API request
     confirmAlert({
       title: "Confirm to Issue Certificate",
       message: "Are you sure you want to continue !.",
@@ -71,11 +65,11 @@ function NewCertificate() {
         {
           label: "Yes",
           onClick: () => handleModalConfirm(),
-          className: "btn btn-info", // Add a class to the button
+          className: "btn btn-info",
         },
         {
           label: "No",
-          className: "btn btn-primary", // Add a class to the button
+          className: "btn btn-primary",
         },
       ],
     });
@@ -214,37 +208,13 @@ function NewCertificate() {
                       />
                     </div>
                   </div>
-
                   <div className="field-item field-item-s2">
                     <input
                       type="text"
-                      name="degreeAwarded"
+                      name="department"
                       className="input-bordered required"
-                      placeholder="E.g BEng in Computer Engineering"
-                      value={form.degreeAwarded || ""}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                  <div className="field-item field-item-s2">
-                    <input
-                      type="text"
-                      name="degreeType"
-                      className="input-bordered required"
-                      placeholder="E.g Bachelor's Degree"
-                      value={form.degreeType || ""}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="field-item field-item-s2">
-                    <input
-                      type="text"
-                      name="classOfDegree"
-                      className="input-bordered required"
-                      placeholder="Class of Deg e.g First Class"
-                      value={form.classOfDegree || ""}
+                      placeholder="Department"
+                      value={form.department || ""}
                       onChange={handleInputChange}
                       required
                     />
@@ -260,17 +230,42 @@ function NewCertificate() {
                       required
                     />
                   </div>
+
                   <div className="field-item field-item-s2">
                     <input
                       type="text"
-                      name="department"
+                      name="degreeType"
                       className="input-bordered required"
-                      placeholder="Department"
-                      value={form.department || ""}
+                      placeholder="E.g Bachelor of Engineering (BEng)"
+                      value={form.degreeType || ""}
                       onChange={handleInputChange}
                       required
                     />
                   </div>
+                  <div className="field-item field-item-s2">
+                    <input
+                      type="text"
+                      name="degreeAwarded"
+                      className="input-bordered required"
+                      placeholder="E.g BEng in Computer Engineering"
+                      value={form.degreeAwarded || ""}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="field-item field-item-s2">
+                    <input
+                      type="text"
+                      name="classOfDegree"
+                      className="input-bordered required"
+                      placeholder="Class of Deg e.g First Class Honours"
+                      value={form.classOfDegree || ""}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
                   <div className="field-item field-item-s2">
                     <input
                       type="year"
