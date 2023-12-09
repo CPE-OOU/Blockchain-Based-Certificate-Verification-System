@@ -79,7 +79,7 @@ function Certificates() {
       sortable: true,
     },
     { name: "Department", selector: (row) => row.department, sortable: true },
-    { name: "Degree", selector: (row) => row.degree, sortable: true },
+    { name: "Degree", selector: (row) => row.degreeAwarded, sortable: true },
     {
       name: "Class of Degree",
       selector: (row) => row.classOfDegree,
