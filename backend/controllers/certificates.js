@@ -19,6 +19,8 @@ const {
 const User = require("../model/User");
 const Certificate = require("../model/Certificate");
 
+const QRCode = require("qrcode");
+
 // require('dotenv').config({path: '.env'})
 
 // const PDFDocument = require('pdfkit');
@@ -296,26 +298,12 @@ exports.createCertificate = asyncHandler(async (req, res, next) => {
   } = req.body;
   const certificateStatus = "Valid";
 
-  //   {
-  //     "matricNo" : "EES/23/24/0269",
-  //     "lastname" : "Sam",
-  //     "firstname" : "Smith",
-  //     "middlename" : "Emmanuel",
-  //     "degreeType" : "Bachelor's Degree",
-  //     "degreeAwarded" : "BEng in Computer Engineering",
-  //     "classOfDegree" : "First Class Honors",
-  //     "courseName" : "Computer Engineering",
-  //     "department" : "Computer Engineering",
-  //     "yearOfCompletion" : "2023",
-  //     "certificateStatus":"Valid"
-  // }
-
   const existingCertificate = await CertificateModel.findOne({ matricNo });
 
   if (existingCertificate) {
     return res.status(400).json({
       success: false,
-      message: "Certificate already existsssssss",
+      message: "Matric No. has been issued certificate already !!",
     });
   }
 
@@ -324,48 +312,47 @@ exports.createCertificate = asyncHandler(async (req, res, next) => {
     const pdfPath = `./certifications/${certificateId}.pdf`;
     const file = pdfPath;
 
-    const pdfBytes = await certificateTemplate({
+    // Generate the PDF document
+    const doc = await certificateTemplate({
       ...req.body,
       certificateId,
       pdfPath,
     });
-    // console.log(pdfBytes);
-    // fs.writeFileSync(file, pdfBytes);
+
+    // Write the PDF document to a file
     await new Promise((resolve, reject) => {
       const writeStream = fs.createWriteStream(pdfPath);
-      pdfBytes.pipe(writeStream);
-      pdfBytes.end();
+      doc.pipe(writeStream);
+      doc.end();
       writeStream.on("finish", resolve);
       writeStream.on("error", reject);
     });
 
+    // Read the file data and produce the hash
     const fileData = fs.readFileSync(pdfPath);
-
-    pdfBytes.end();
-
     const hash = crypto.createHash("sha256");
     hash.update(fileData);
     const fileHash = hash.digest("hex");
 
-    const senderAccount = {
-      address: "0xD263C466E6aA620DF49495A6B6A4a8e49496F06C",
-      privateKey:
-        "0x18424a8c4a250461b3a6b43b9619f6f32ce3dddc70e68746bf6fa25fa86c2b64",
-    };
+    // const senderAccount = {
+    //   address: "0xD263C466E6aA620DF49495A6B6A4a8e49496F06C",
+    //   privateKey:
+    //     "0x18424a8c4a250461b3a6b43b9619f6f32ce3dddc70e68746bf6fa25fa86c2b64",
+    // };
 
-    const recieverAccount = {
-      address: "0x22FF4c57Eec278D37a1D9B95E4232F699Cdc2184",
-      privateKey:
-        "0xb390bdd0b41772049126e36fd0478d60332242c22245037da06a7d534e789afd",
-    };
+    // const recieverAccount = {
+    //   address: "0x22FF4c57Eec278D37a1D9B95E4232F699Cdc2184",
+    //   privateKey:
+    //     "0xb390bdd0b41772049126e36fd0478d60332242c22245037da06a7d534e789afd",
+    // };
 
-    const signedTx = await signAndSendTransaction(
-      senderAccount.privateKey,
-      senderAccount.address,
-      recieverAccount.address
-    );
+    // const signedTx = await signAndSendTransaction(
+    //   senderAccount.privateKey,
+    //   senderAccount.address,
+    //   recieverAccount.address
+    // );
 
-    const details = await getTransactionDetails(signedTx.transactionHash);
+    // const details = await getTransactionDetails(signedTx.transactionHash);
 
     const Certificate = await CertificateModel.create({
       matricNo,

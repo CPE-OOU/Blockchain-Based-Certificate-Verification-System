@@ -93,9 +93,9 @@ exports.register = asyncHandler(async (req, res, next) => {
     user.get;
     const token = user.getSignedJwtToken();
 
-    res.status(200).json({ true: true, token });
+    // res.status(200).json({ true: true, token });
 
-    // sendTokenResponse(user, 200, res);
+    sendTokenResponse(user, 200, res);
   } catch (error) {
     return next(
       new ErrorResponse(`Error creating Celo account: ${error.message}`, 401)
