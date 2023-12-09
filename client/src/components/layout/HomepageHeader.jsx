@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 // import LoginModal from "../pages/LoginModal";
 import HomepageBanner from "./HompageBanner";
-
+import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../../features/auth/authSlice";
@@ -18,6 +18,17 @@ const HomepageHeader = () => {
     dispatch(reset());
     navigate("/");
   };
+
+  // ...
+
+  let userRole;
+
+  if (user && typeof user.token === "string") {
+    const decodedToken = jwtDecode(user.token);
+    if (decodedToken) {
+      userRole = decodedToken.role;
+    }
+  }
 
   const textStyleDark = {
     color: "white",
@@ -86,7 +97,14 @@ const HomepageHeader = () => {
                   </li>
                   {user && (
                     <li className="menu-item">
-                      <Link className="menu-link nav-link" to="/certificates">
+                      <Link
+                        className="menu-link nav-link"
+                        to={
+                          userRole === "admin"
+                            ? "/certificates"
+                            : "/my-certificates"
+                        }
+                      >
                         Certificates
                       </Link>
                     </li>

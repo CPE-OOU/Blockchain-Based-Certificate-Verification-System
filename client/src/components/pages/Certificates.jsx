@@ -34,6 +34,8 @@ function Certificates() {
     // console.log(typeof user);
 
     // alert(jwtDecode(console.log(jwtDecode(JSON.stringify(token)).role)).role);
+  } else {
+    navigate("/");
   }
 
   useEffect(() => {
@@ -87,11 +89,11 @@ function Certificates() {
       name: "Actions",
       cell: (row) => (
         <td className="table-des">
-          <a className="doc-download btn-sm" href="#">
-            <em className="ti ti-import"></em> Pdf{" "}
+          <a href="#" className="btn btn-success btn-auto btn-sm">
+            <em className="ti ti-download"></em> Download
           </a>
           <a href="#" className="btn btn-danger btn-auto btn-sm">
-            <em className="ti ti-import"></em>Small
+            <em className="ti ti-close"></em> Revoked
           </a>
         </td>
       ),

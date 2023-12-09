@@ -76,16 +76,16 @@ function Verify() {
           `${BACKEND_URL}/certificates/verify/certificatehash/${fileHash}`,
           {
             headers: { Authorization: `Bearer ${token}` },
-            timeout: 30000, // Wait for 5 seconds
+            timeout: 35000, // Wait for 5 seconds
           }
         );
 
         if (response.data.success) {
-          toast.success("Certificate File verified successfully !!!");
+          toast.success("Certificate Found !!!");
           setCertificateDetails(response.data.data);
           setShowModal(true);
         } else {
-          toast.error("Certificate File verification failed.");
+          toast.error("Certificate Check failed.");
         }
       } catch (error) {
         if (error.code === "ECONNABORTED") {
@@ -118,22 +118,22 @@ function Verify() {
         `${BACKEND_URL}/certificates/verify/certificateid/${certificateId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
-          timeout: 30000, // Wait for 30 seconds
+          timeout: 35000, // Wait for 30 seconds
         }
       );
 
       if (response.data.success) {
-        toast.success("CertificateId verified successfully !!!");
+        toast.success("Certificate Found !!!");
         setCertificateDetails(response.data.data);
         setShowModal(true);
       } else {
-        toast.error("CertificateId verification failed.");
+        toast.error("Certificate Check failed.");
       }
     } catch (error) {
       if (error.code === "ECONNABORTED") {
         toast.error("API request timed out. Please try again.");
       } else {
-        toast.error("Verification Failed Certificate Invalid");
+        toast.error("Certificate Check failed");
       }
     } finally {
       setLoading(false);
@@ -321,6 +321,17 @@ function Verify() {
               <p>
                 <strong>Year of Completion:</strong>{" "}
                 {certificateDetails.yearOfCompletion}
+              </p>
+              <p
+                style={{
+                  color:
+                    certificateDetails.certificateStatus === "Valid"
+                      ? "green"
+                      : "red",
+                  fontSize: "1.5em", // Adjust this value to change the size of the text
+                }}
+              >
+                <strong>Status:</strong> {certificateDetails.certificateStatus}
               </p>
             </div>
           )}

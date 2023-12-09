@@ -25,19 +25,48 @@ function Certificates() {
   // const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
+  // let token;
+  // let decodedToken;
+  // if (user) {
+  //   token = user.token;
+
+  //   decodedToken = jwtDecode(token);
+  //   // console.log(decodedToken);
+  //   // console.log(token);
+  //   // console.log(decodedToken.role);
+  // }
+
+  // if (decodedToken.id == undefined) {
+  //   navigate("/");
+  // }
+
+  // const [certificates, setCertificates] = useState([]);
+
+  // const baseURL = `${BACKEND_URL}/certificates/userid/${decodedToken.id}`;
+
   let token;
   let decodedToken;
-  if (user) {
+  let userId;
+
+  if (user && typeof user.token === "string") {
     token = user.token;
     decodedToken = jwtDecode(token);
-    console.log(decodedToken);
-    console.log(token);
-    console.log(decodedToken.role);
+    if (decodedToken) {
+      userId = decodedToken.id;
+    }
+  }
+
+  if (userId === undefined) {
+    navigate("/");
   }
 
   const [certificates, setCertificates] = useState([]);
 
-  const baseURL = `${BACKEND_URL}/certificates/userid/${decodedToken.id}`;
+  const baseURL = userId
+    ? `${BACKEND_URL}/certificates/userid/${userId}`
+    : null;
+
+  // const baseURL = `${BACKEND_URL}/certificates/userid/${decodedToken.id}`;
 
   useEffect(() => {
     axios
@@ -130,8 +159,8 @@ function Certificates() {
           <div className="row justify-content-cente align-items-cente">
             <div className="col-lg-12">
               <h2 className="title">
-                May Certificates:
-                {user ? <span> {decodedToken.name} </span> : null}
+                My Certificates:
+                {/* {user ? <span> {decodedToken.name} </span> : null} */}
               </h2>
               <div class="text-right"></div>
               <input

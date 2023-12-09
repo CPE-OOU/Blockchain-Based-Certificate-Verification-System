@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import { register, reset } from "../../features/auth/authSlice";
 
-const Login = () => {
+const AdminLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -31,7 +31,7 @@ const Login = () => {
 
     //redirect when logged in
     if (isSuccess || user) {
-      navigate("/home");
+      navigate("/certificates");
       setLoading(false);
       toast.success("Login Sucessfull!!");
     }
@@ -173,17 +173,15 @@ const Login = () => {
 
         <div className="ath-note text-center">
           <span>
-            <b>Student Login</b>
+            <b>Admin Login</b>
           </span>
           <br></br>
           <span>
-            {" "}
-            <b>Email:</b> student1@oouagoiwoye.edu.ng{" "}
+            <b>Email:</b> admin@oouagoiwoye.edu.ng{" "}
           </span>
           <span>
             <b>Pass:</b> 123456
           </span>
-          <br></br>
           <div className="sap-text">
             <span>---</span>
           </div>
@@ -194,4 +192,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

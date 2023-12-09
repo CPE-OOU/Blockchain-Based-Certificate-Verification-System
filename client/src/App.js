@@ -14,6 +14,7 @@ import Verify from "./components/pages/Verify";
 import Register from "./components/pages/Register";
 // import LoginModal from "./components/pages/LoginModal";
 import Login from "./components/pages/Login";
+import AdminLogin from "./components/pages/AdminLogin";
 import About from "./components/pages/About";
 import MyCertificate from "./components/pages/MyCertificate";
 import Empty from "./components/pages/Empty";
@@ -108,6 +109,7 @@ const App = () => {
           />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
