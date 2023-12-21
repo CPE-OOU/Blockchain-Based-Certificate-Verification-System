@@ -1,0 +1,74 @@
+[
+  {
+    "matricNo": "Matric Number",
+    "name": "Surname Middle Name First Name",
+    "email": "matric number@oouagoiwoye.edu.ng",
+    "password": "firstname",
+    "role": "student",
+    "identityNo": "Matric Number"
+  },
+  {
+    "matricNo": "EES/21/22/0089",
+    "name": "Adeyemo  Oluwanbo Pelumi ",
+    "email": "ees21220089@oouagoiwoye.edu.ng",
+    "password": "pelumi",
+    "role": "student",
+    "identityNo": "EES/21/22/0089"
+  },
+  {
+    "matricNo": "EES/20/21/0407",
+    "name": "Taiwo Oyindamola  Musiliudeen ",
+    "email": "ees20210407@oouagoiwoye.edu.ng",
+    "password": "musiliudeen",
+    "role": "student",
+    "identityNo": "EES/20/21/0407"
+  },
+  {
+    "matricNo": "EES/21/22/0084",
+    "name": "Adewale  Olawale  Gbenga",
+    "email": "ees21220084@oouagoiwoye.edu.ng",
+    "password": "gbenga",
+    "role": "student",
+    "identityNo": "EES/21/22/0084"
+  },
+  {
+    "matricNo": "EES/21/22/0143",
+    "name": "Aminu Adeola  Eniola",
+    "email": "ees21220143@oouagoiwoye.edu.ng",
+    "password": "eniola",
+    "role": "student",
+    "identityNo": "EES/21/22/0143"
+  },
+  {
+    "matricNo": "EES/20/21/0302",
+    "name": "Oladipupo  Adurasanmi  Samuel ",
+    "email": "ees20210302@oouagoiwoye.edu.ng",
+    "password": "samuel",
+    "role": "student",
+    "identityNo": "EES/20/21/0302"
+  },
+  {
+    "matricNo": "EES/21/22/0488",
+    "name": "SAKA OLAYINKA  RODIAT",
+    "email": "ees21220488@oouagoiwoye.edu.ng",
+    "password": "rodiat",
+    "role": "student",
+    "identityNo": "EES/21/22/0488"
+  },
+  {
+    "matricNo": "EES/21/22/0118",
+    "name": "AKINOLA  OLADIMEJI JESSE",
+    "email": "ees21220118@oouagoiwoye.edu.ng",
+    "password": "jesse",
+    "role": "student",
+    "identityNo": "EES/21/22/0118"
+  },
+  {
+    "matricNo": "EES/20/21/0299",
+    "name": "Ola  Peter  Oluwadamilola ",
+    "email": "ees20210299@oouagoiwoye.edu.ng",
+    "password": "oluwadamilola",
+    "role": "student",
+    "identityNo": "EES/20/21/0299"
+  }
+]

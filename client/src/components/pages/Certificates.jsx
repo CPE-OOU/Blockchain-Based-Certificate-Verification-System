@@ -6,6 +6,7 @@ import axios from "axios";
 import DataTable from "react-data-table-component";
 import { BACKEND_URL } from "../../config/contants";
 import { Spinner } from "react-bootstrap"; // Import Spinner from react-bootstrap
+import { toast } from "react-toastify";
 
 function Certificates() {
   const [certificates, setCertificates] = useState([]);
@@ -89,9 +90,14 @@ function Certificates() {
       name: "Actions",
       cell: (row) => (
         <td className="table-des">
-          <a href="#" className="btn btn-success btn-auto btn-sm">
-            <em className="ti ti-download"></em> Download
-          </a>
+          <button
+            className="btn btn-success btn-auto btn-sm"
+            onClick={() => handleDownload(row._id)}
+            disabled={loading}
+          >
+            {loading ? <Spinner /> : <em className="ti ti-download"></em>}{" "}
+            Download
+          </button>
           <a href="#" className="btn btn-danger btn-auto btn-sm">
             <em className="ti ti-close"></em> Revoked
           </a>
@@ -99,6 +105,38 @@ function Certificates() {
       ),
     },
   ];
+
+  const handleDownload = async (id) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${baseURL}download/${id}`, {
+        responseType: "blob",
+        timeout: 50000, // Timeout after 50 seconds
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "file.pdf"); // or any other extension
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      console.error("An error occurred while downloading the file:", error);
+      if (error.code === "ECONNABORTED") {
+        toast.error("The request took too long - please try again later.");
+      } else if (error.response && error.response.status === 404) {
+        toast.error("The file you're trying to download could not be found.");
+      } else if (error.response && error.response.status === 403) {
+        toast.error("You do not have permission to download this file.");
+      }
+      //  else {
+      //   toast.error(
+      //     "An error occurred while downloading the file. Please try again later."
+      //   );
+      // }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredCertificates = certificates.filter((certificate) =>
     certificate.matricNo

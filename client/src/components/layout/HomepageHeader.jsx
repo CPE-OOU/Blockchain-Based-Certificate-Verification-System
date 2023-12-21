@@ -96,31 +96,42 @@ const HomepageHeader = () => {
                     </Link>
                   </li>
                   {user && (
-                    <li className="menu-item">
-                      <Link
-                        className="menu-link nav-link"
-                        to={
-                          userRole === "admin"
-                            ? "/certificates"
-                            : "/my-certificates"
-                        }
-                      >
-                        Certificates
-                      </Link>
-                    </li>
-                  )}
-                  <li className="menu-item has-sub">
-                    <a className="menu-link nav-link menu-toggle" to="#">
-                      More
-                    </a>
-                    <ul className="menu-sub menu-drop">
+                    <>
                       <li className="menu-item">
-                        <a className="menu-link nav-link" href="#about">
-                          About
+                        <Link
+                          className="menu-link nav-link"
+                          to={
+                            userRole === "admin"
+                              ? "/certificates"
+                              : "/my-certificates"
+                          }
+                        >
+                          Certificates
+                        </Link>
+                      </li>
+
+                      <li className="menu-item">
+                        <a href="#" onClick={onLogout}>
+                          Log Out
                         </a>
                       </li>
-                    </ul>
-                  </li>
+                    </>
+                  )}
+
+                  {user ? (
+                    <li className="menu-item has-sub">
+                      <a className="menu-link nav-link menu-toggle" href="#">
+                        More
+                      </a>
+                      <ul className="menu-sub menu-drop">
+                        <li className="menu-item">
+                          <a href="#" onClick={onLogout}>
+                            Log Out
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  ) : null}
                 </ul>
 
                 {user ? (
@@ -151,6 +162,14 @@ const HomepageHeader = () => {
                         className="btn btn-md btn-auto btn-grad no-change"
                       >
                         <span>Login</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/admin-login"
+                        className="btn btn-md btn-auto btn-grad no-change"
+                      >
+                        <span>Admin Login</span>
                       </Link>
                     </li>
                   </ul>

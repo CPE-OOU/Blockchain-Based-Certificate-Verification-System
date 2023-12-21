@@ -49,90 +49,54 @@ const bcrypt = require("bcryptjs");
 // });
 
 exports.register = asyncHandler(async (req, res, next) => {
-  const { name, matricNo, identityNo, email, password, role } = req.body;
+  let usersResponse = [];
+  // Assume req.body is an array of user objects
+  for (let i = 0; i < req.body.length; i++) {
+    const { name, matricNo, identityNo, email, password, role } = req.body[i];
 
-  // Create the blockchain account
-  try {
-    // Encrypt the private key before saving to the database and allow it to be decryptable when needed to be used
+    try {
+      // Check if a user with the same email already exists
+      const existingUser = await User.findOne({ email: email });
+      if (existingUser) {
+        return next(
+          new ErrorResponse("A user with this email already exists", 400)
+        );
+      }
 
-    // Check if a user with the same email already exists
-    const existingUser = await User.findOne({ email: email });
-    if (existingUser) {
+      const celoAccount = await createAccount();
+
+      const address = celoAccount.address;
+      const privateKey = celoAccount.privateKey;
+
+      // If not, create the new user
+      const user = await User.create({
+        name,
+        email,
+        password,
+        role,
+        matricNo,
+        identityNo,
+        address,
+        privateKey,
+      });
+
+      // Create an object to hold the user info you want to include in the response
+      let userResponse = {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        matricNo: user.matricNo,
+        address: address,
+      };
+
+      usersResponse.push(userResponse);
+    } catch (error) {
       return next(
-        new ErrorResponse("A user with this email already exists", 400)
+        new ErrorResponse(`Error creating Celo account: ${error.message}`, 401)
       );
     }
-
-    const celoAccount = await createAccount();
-
-    const address = celoAccount.address;
-    const privateKey = celoAccount.privateKey;
-
-    // If not, create the new user
-    const user = await User.create({
-      name,
-      email,
-      password,
-      role,
-      matricNo,
-      identityNo,
-      address,
-      privateKey,
-    });
-
-    // Create an object to hold the user info you want to include in the response
-    let userResponse = {
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      matricNo: user.matricNo,
-      address: address,
-      // privateKey: privateAddress,
-      // Do not include the privateAddress
-    };
-    user.get;
-    const token = user.getSignedJwtToken();
-
-    // res.status(200).json({ true: true, token });
-
-    sendTokenResponse(user, 200, res);
-  } catch (error) {
-    return next(
-      new ErrorResponse(`Error creating Celo account: ${error.message}`, 401)
-    );
   }
-
-  //   const publicAddress = celoAccount.address;
-
-  //   // Salt the privateKey
-  //   const salt = await bcrypt.genSalt(10);
-  //   const privateKey = await bcrypt.hash(celoAccount.privateKey, salt);
-
-  //   // Create user on the database
-  //   const user = await User.create({
-  //     name,
-  //     email,
-  //     password,
-  //     role,
-  //     publicAddress,
-  //     privateKey,
-  //   });
-
-  // // Create an object to hold the user info you want to include in the response
-  // let userResponse = {
-  //   name: user.name,
-  //   email: user.email,
-  //   role: user.role,
-  //   publicAddress: user.publicAddress,
-  //   // Do not include the privateAddress
-  // };
-
-  //   } catch (error) {
-  //     // Handle any other errors
-  //     // return next(new ErrorResponse('Error registering user', 500));
-  //     return next(new ErrorResponse(`${error.message}`, 401));
-
-  //   }
+  res.status(200).json(usersResponse);
 });
 
 // @desc      Login user

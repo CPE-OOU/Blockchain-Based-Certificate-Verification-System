@@ -3,6 +3,7 @@ const {
   getCertificates,
   getCertificate,
   createCertificate,
+  createSwepCertificate,
   updateCertificate,
   // deleteCertificate,
   web3,
@@ -10,6 +11,8 @@ const {
   verifyCertificatebyCertId,
   verifyCertificatebyCertHash,
   getCertificateByUserId,
+  downloadCertificate,
+  getSwep,
 } = require("../controllers/certificates");
 const router = express.Router();
 const { protect } = require("../middleware/auth");
@@ -40,28 +43,10 @@ router.route("/userid/:userId").get(getCertificateByUserId);
 
 router.route("/celo").get(web3);
 
-// ________________________
-const app = express();
+router.route("/download/:id").get(downloadCertificate);
 
-app.get("/download/:certificateId", async (req, res) => {
-  const id = req.params.id;
+router.route("/swep").post(createSwepCertificate);
 
-  // Use the id to find the certificate in the database
-  const certificate = await Certificate.findBycertificateId(id); // Assuming Certificate is your Mongoose model
-
-  if (!certificate) {
-    return res.status(404).send("Certificate not found");
-  }
-
-  const filePath = certificate.pdfPath; // Assuming pdfPath is the field where you store the path
-
-  res.download(filePath, (err) => {
-    if (err) {
-      res.status(500).send({
-        message: "Could not download the file. " + err,
-      });
-    }
-  });
-});
+// router.route("/swep/all/").get(getSwep);
 
 module.exports = router;

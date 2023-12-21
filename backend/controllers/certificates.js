@@ -1,8 +1,10 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const CertificateModel = require("../model/Certificate");
+const SwepModel = require("../model/Swep");
 
 const certificateTemplate = require("./certificateTemplate/certificateTemplate");
+const swepCertificateTemplate = require("./certificateTemplate/swepCertificateTemplate");
 // const { default: puppeteer } = require("puppeteer");
 
 const fs = require("fs");
@@ -313,7 +315,12 @@ exports.createCertificate = asyncHandler(async (req, res, next) => {
     const file = pdfPath;
 
     // Generate the PDF document
-    const doc = await certificateTemplate({
+    // const doc = await certificateTemplate({
+    //   ...req.body,
+    //   certificateId,
+    //   pdfPath,
+    // });
+    const doc = await swepCertificateTemplate({
       ...req.body,
       certificateId,
       pdfPath,
@@ -435,4 +442,140 @@ exports.web3 = asyncHandler(async (req, res, next) => {
   account = web3.eth.accounts.create();
 
   res.status(200).json({ success: true, data: account });
+});
+
+exports.getSwep = asyncHandler(async (req, res, next) => {
+  const Swep = await SwepModel.find();
+  // const Certificates = await CertificateModel.find();
+  res.status(200).json({ success: true, count: Swep.length, data: Swep });
+});
+
+exports.createSwepCertificate = asyncHandler(async (req, res, next) => {
+  const { matricNo, lastname, firstname, middlename, track } = req.body;
+
+  const recieveAt = req.body.email;
+  const certificateType = "Swep";
+  const certificateStatus = "Valid";
+  const formattedMatricNo = matricNo.trim().toLowerCase();
+
+  // Check if matricNo is eligible
+  const eligibleMatricNo = await SwepModel.findOne({
+    matricNo: { $regex: new RegExp(`^${formattedMatricNo}$`, "i") },
+  });
+  if (!eligibleMatricNo) {
+    return res.status(400).json({
+      success: false,
+      message: "You are not eligible for this certificate.",
+    });
+  }
+
+  // Check if certificate already exists
+  const existingCertificate = await CertificateModel.findOne({
+    matricNo: { $regex: new RegExp(`^${formattedMatricNo}$`, "i") },
+  });
+  if (existingCertificate) {
+    return res.status(400).json({
+      success: false,
+      message:
+        " Your details is undergoing check. Certificate will be sent to your email when approved !!",
+    });
+  }
+
+  try {
+    const certificateId = "SWEP-" + Date.now();
+    const pdfPath = `./certifications/${lastname}-${firstname}-${middlename}.pdf`;
+    const file = pdfPath;
+
+    const doc = await swepCertificateTemplate({
+      ...req.body,
+      certificateId,
+      pdfPath,
+    });
+
+    // Write the PDF document to a file
+    await new Promise((resolve, reject) => {
+      const writeStream = fs.createWriteStream(pdfPath);
+      doc.pipe(writeStream);
+      doc.end();
+      writeStream.on("finish", resolve);
+      writeStream.on("error", reject);
+    });
+
+    // Read the file data and produce the hash
+    const fileData = fs.readFileSync(pdfPath);
+    const hash = crypto.createHash("sha256");
+    hash.update(fileData);
+    const fileHash = hash.digest("hex");
+
+    // const senderAccount = {
+    //   address: "0xD263C466E6aA620DF49495A6B6A4a8e49496F06C",
+    //   privateKey:
+    //     "0x18424a8c4a250461b3a6b43b9619f6f32ce3dddc70e68746bf6fa25fa86c2b64",
+    // };
+
+    // const recieverAccount = {
+    //   address: "0x22FF4c57Eec278D37a1D9B95E4232F699Cdc2184",
+    //   privateKey:
+    //     "0xb390bdd0b41772049126e36fd0478d60332242c22245037da06a7d534e789afd",
+    // };
+
+    // const signedTx = await signAndSendTransaction(
+    //   senderAccount.privateKey,
+    //   senderAccount.address,
+    //   recieverAccount.address
+    // );
+
+    // const details = await getTransactionDetails(signedTx.transactionHash);
+
+    const Certificate = await CertificateModel.create({
+      matricNo,
+      lastname,
+      firstname,
+      middlename,
+      certificateStatus,
+      certificateType,
+      track,
+      recieveAt,
+      certificateId,
+      fileHash,
+      file,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: {
+        certificateId,
+        pdfPath,
+        fileHash,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+exports.downloadCertificate = asyncHandler(async (req, res, next) => {
+  const Certificate = await CertificateModel.findById(req.params.id);
+  // const Certificate = await CertificateModel.findOne({
+  //   certificateId: req.params.certificateId,
+  // });
+  if (!Certificate) {
+    return next(
+      new ErrorResponse(
+        `Certificate not found with id of ${req.params.id}`,
+        404
+      )
+    );
+  }
+
+  // Assuming the pdfPath is stored in the Certificate object
+  const pdfPath = Certificate.file;
+
+  // If you want to send the file to the client, uncomment the following line:
+  res.download(pdfPath);
+
+  // return res.status(200).json({ success: true, data: { pdfPath } });
 });

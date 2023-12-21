@@ -18,6 +18,7 @@ import AdminLogin from "./components/pages/AdminLogin";
 import About from "./components/pages/About";
 import MyCertificate from "./components/pages/MyCertificate";
 import Empty from "./components/pages/Empty";
+import Swep from "./components/pages/swep";
 
 // const Layout = ({ children }) => {
 //   return (
@@ -107,9 +108,19 @@ const App = () => {
               </Layout>
             }
           />
+          <Route
+            path="/swep-certificate"
+            element={
+              <Layout>
+                <Swep />
+              </Layout>
+            }
+          />
+          {/* <Route path="/swep-certificate" element={<Swep />} /> */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin-login" element={<AdminLogin />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

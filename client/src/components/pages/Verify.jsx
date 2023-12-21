@@ -89,9 +89,9 @@ function Verify() {
         }
       } catch (error) {
         if (error.code === "ECONNABORTED") {
-          toast.error("API request timed out. Please try again.");
+          toast.error("Network connection failed. Please try again.");
         } else {
-          toast.error("API request failed. Please try again later.");
+          toast.error("Certificate Check failed.");
         }
       } finally {
         setLoading(false);
@@ -307,28 +307,43 @@ function Verify() {
                 <strong>Full Name:</strong> {certificateDetails.lastname}{" "}
                 {certificateDetails.firstname} {certificateDetails.middlename}
               </p>
-              <p>
-                <strong>Degree Type:</strong> {certificateDetails.degreeType}
-              </p>
-              <p>
-                <strong>Degree Awarded:</strong>{" "}
-                {certificateDetails.degreeAwarded}
-              </p>
-              <p>
-                <strong>Class of Degree:</strong>{" "}
-                {certificateDetails.classOfDegree}
-              </p>
-              <p>
-                <strong>Year of Completion:</strong>{" "}
-                {certificateDetails.yearOfCompletion}
-              </p>
+
+              {/* Conditional content */}
+              {certificateDetails.certificateType &&
+              certificateDetails.certificateType === "Swep" ? (
+                <p>
+                  <strong> Certificate Type:</strong>
+                  {" Certificate of participation in "}
+                  {certificateDetails.certificateType}
+                </p>
+              ) : (
+                <>
+                  <p>
+                    <strong>Degree Type:</strong>{" "}
+                    {certificateDetails.degreeType}
+                  </p>
+                  <p>
+                    <strong>Degree Awarded:</strong>{" "}
+                    {certificateDetails.degreeAwarded}
+                  </p>
+                  <p>
+                    <strong>Class of Degree:</strong>{" "}
+                    {certificateDetails.classOfDegree}
+                  </p>
+                  <p>
+                    <strong>Year of Completion:</strong>{" "}
+                    {certificateDetails.yearOfCompletion}
+                  </p>
+                </>
+              )}
+
               <p
                 style={{
                   color:
                     certificateDetails.certificateStatus === "Valid"
                       ? "green"
                       : "red",
-                  fontSize: "1.5em", // Adjust this value to change the size of the text
+                  fontSize: "1.75em", // Adjust this value to change the size of the text
                 }}
               >
                 <strong>Status:</strong> {certificateDetails.certificateStatus}

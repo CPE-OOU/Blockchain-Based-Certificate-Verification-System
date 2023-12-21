@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import Banner1 from "./Banner1";
-
+import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../../features/auth/authSlice";
@@ -17,6 +17,15 @@ function OtherPagesHeader({ heading, description, showBanner }) {
     // navigate("/");
     navigate("/home");
   };
+
+  let userRole;
+
+  if (user && typeof user.token === "string") {
+    const decodedToken = jwtDecode(user.token);
+    if (decodedToken) {
+      userRole = decodedToken.role;
+    }
+  }
 
   // Conditionally render the banner based on the showBanner prop
   const banner = showBanner ? (
@@ -73,7 +82,10 @@ function OtherPagesHeader({ heading, description, showBanner }) {
                       Verify Certificate
                     </Link>
                   </li>
-                  <li className="menu-item has-sub">
+                  {/* <li className="menu-item">
+                    <Link onClick={onLogout}>Log Out</Link>
+                  </li> */}
+                  {/* <li className="menu-item has-sub">
                     <a className="menu-link nav-link menu-toggle" to="#">
                       More
                     </a>
@@ -84,7 +96,7 @@ function OtherPagesHeader({ heading, description, showBanner }) {
                         </a>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
                 </ul>
 
                 {user ? (
@@ -98,12 +110,19 @@ function OtherPagesHeader({ heading, description, showBanner }) {
                       <div className="toggle-class toggle-drop toggle-drop-right">
                         <ul className="drop-list">
                           <li>
-                            <Link to="#">Certificates</Link>
+                            <Link
+                              className="menu-link nav-link"
+                              to={
+                                userRole === "admin"
+                                  ? "/certificates"
+                                  : "/my-certificates"
+                              }
+                            >
+                              Certificates
+                            </Link>
                           </li>
                           <li>
-                            <Link to="#" onClick={onLogout}>
-                              Log Out
-                            </Link>
+                            <Link onClick={onLogout}>Log Out</Link>
                           </li>
                         </ul>
                       </div>

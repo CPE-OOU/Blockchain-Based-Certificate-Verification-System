@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import { register, reset } from "../../features/auth/authSlice";
+import DOMPurify from "dompurify"; // Import DOMPurify
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -41,9 +42,11 @@ const AdminLogin = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    // Sanitize the input
+    const sanitizedValue = DOMPurify.sanitize(value);
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: sanitizedValue,
     });
   };
 
@@ -176,7 +179,7 @@ const AdminLogin = () => {
             <b>Admin Login</b>
           </span>
           <br></br>
-          <span>
+          {/* <span>
             <b>Email:</b> admin@oouagoiwoye.edu.ng{" "}
           </span>
           <span>
@@ -184,7 +187,7 @@ const AdminLogin = () => {
           </span>
           <div className="sap-text">
             <span>---</span>
-          </div>
+          </div> */}
           Don’t have an account? Contact ICT
         </div>
       </div>

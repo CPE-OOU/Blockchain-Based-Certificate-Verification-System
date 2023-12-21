@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // {
 //     "_id": "5d713995b721c3bb38c1f5d0",
@@ -14,7 +14,6 @@ const mongoose = require('mongoose');
 //     "fileHash": "Devworks Bootcamp",
 
 //     "transactionHash": "Devworks Bootcamp",
-   
 
 //     "fileName": "filename",
 //     "fileLocation": "filename",
@@ -24,96 +23,111 @@ const mongoose = require('mongoose');
 //     "deleted_at": "Devworks Bootcamp"
 // }
 
-const CertifiacteSchema = new mongoose.Schema({
-
-     // user: {
+const CertifiacteSchema = new mongoose.Schema(
+  {
+    // user: {
     //     type: mongoose.Schema.ObjectId,
     //     ref: 'User',
     //     required: true
     // },
     matricNo: {
-        type: String,
-        required: [true, 'Please add a Matric No'],
-        maxlength: [50, 'Matric NO can not be more than 50 characters']
+      type: String,
+      required: [true, "Please add a Matric No"],
+      maxlength: [50, "Matric NO can not be more than 50 characters"],
     },
     lastname: {
-        type: String,
-        required: [true, 'Please add a Matric No'],
-        maxlength: [50, 'Matric NO can not be more than 50 characters']
+      type: String,
+      required: [true, "Please add a Matric No"],
+      maxlength: [50, "Matric NO can not be more than 50 characters"],
     },
     firstname: {
-        type: String,
-        required: [true, 'Please add a Matric No'],
-        maxlength: [50, 'Matric NO can not be more than 50 characters']
+      type: String,
+      required: [true, "Please add a Matric No"],
+      maxlength: [50, "Matric NO can not be more than 50 characters"],
     },
     middlename: {
-        type: String,
-        required: [true, 'Please add a Matric No'],
-        maxlength: [50, 'Matric NO can not be more than 50 characters']
+      type: String,
+      required: [true, "Please add a Matric No"],
+      maxlength: [50, "Matric NO can not be more than 50 characters"],
     },
     degreeType: {
-        type: String,
-        required: [true, 'Please add a classofDegree'],
-        maxlength: [50, 'Degree can not be more than 50 characters']
+      type: String,
+      //   required: [true, "Please add a classofDegree"],
+      maxlength: [50, "Degree can not be more than 50 characters"],
     },
     degreeAwarded: {
-        type: String,
-        required: [true, 'Please add a classofDegree'],
-        maxlength: [50, 'Degree can not be more than 50 characters']
+      type: String,
+      //   required: [true, "Please add a classofDegree"],
+      maxlength: [50, "Degree can not be more than 50 characters"],
     },
     classOfDegree: {
-        type: String,
-        required: [true, 'Please add a Department'],
-        maxlength: [50, 'Department can not be more than 50 characters']
+      type: String,
+      //   required: [true, "Please add a Department"],
+      maxlength: [50, "Department can not be more than 50 characters"],
     },
     courseName: {
-        type: String,
-        required: [true, 'Please add a Department'],
-        maxlength: [50, 'Department can not be more than 50 characters']
+      type: String,
+      //   required: [true, "Please add a Department"],
+      maxlength: [50, "Department can not be more than 50 characters"],
     },
     department: {
-        type: String,
-        required: [true, 'Please add a Department'],
-        maxlength: [50, 'Department can not be more than 50 characters']
+      type: String,
+      //   required: [true, "Please add a Department"],
+      maxlength: [50, "Department can not be more than 50 characters"],
     },
     yearOfCompletion: {
-        type: String,
-        required: [true, 'Please add a Department'],
-        maxlength: [50, 'Department can not be more than 50 characters']
+      type: String,
+      //   required: [true, "Please add a Department"],
+      maxlength: [50, "Department can not be more than 50 characters"],
     },
 
     certificateStatus: {
-        type: String,
-        required: true,
-        enum: [
-          'Valid',
-          'Revoked',
-        ]
+      type: String,
+      required: true,
+      enum: ["Valid", "Revoked"],
     },
+
+    certificateType: {
+      type: String,
+      //   required: true,
+    },
+
+    track: {
+      type: String,
+      //   required: true,
+    },
+    recieveAt: {
+      type: String,
+      //   required: true,
+    },
+
     certificateId: {
-        type: String,
-        // required: [true, 'Please add a Department'],
-        // maxlength: [50, 'Department can not be more than 50 characters']
+      type: String,
+      // required: [true, 'Please add a Department'],
+      // maxlength: [50, 'Department can not be more than 50 characters']
     },
 
     fileHash: {
-        type: String,
-        // required: [true, 'Please add a Department'],
-        // maxlength: [50, 'Department can not be more than 50 characters']
+      type: String,
+      // required: [true, 'Please add a Department'],
+      // maxlength: [50, 'Department can not be more than 50 characters']
     },
-    
-    file: {
-        type: String,
-        // required: [true, 'Please add a Department'],
-        // maxlength: [50, 'Department can not be more than 50 characters']
-    },
-    
-},
-// {
-//     toJSON: { virtuals: true },
-//     toObject: { virtuals: true }
-//   }
 
+    file: {
+      type: String,
+      // required: [true, 'Please add a Department'],
+      // maxlength: [50, 'Department can not be more than 50 characters']
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  }
+
+  // {
+  //     toJSON: { virtuals: true },
+  //     toObject: { virtuals: true }
+  //   }
 );
 
-module.exports = mongoose.model('Certificate', CertifiacteSchema);
+module.exports = mongoose.model("Certificate", CertifiacteSchema);
