@@ -136,7 +136,7 @@ module.exports = async function certificateTemplate(data) {
 
   // Add signature image for John Doe
   doc.image(
-    `${publicPath}/assets/tolu-signature.jpg`,
+    `${publicPath}/assets/kelvin-signature1.png`,
     startLine1, // Position at the left edge
     signatureHeight - 45, // Adjust this value as needed
     {
