@@ -139,9 +139,9 @@ function Swep() {
                 <div className="text-center alert alert-warning">
                   {" "}
                   <strong>Note: </strong>All participansts are required to fill
-                  in thier details. Upon successfull submission, you certificate
-                  will be sent to your Email after after being reviewed and
-                  validated !!{" "}
+                  in thier details. Upon successful submission, your certificate
+                  will be sent to your email after being reviewed and validated
+                  !!{" "}
                 </div>
               </div>
             </div>

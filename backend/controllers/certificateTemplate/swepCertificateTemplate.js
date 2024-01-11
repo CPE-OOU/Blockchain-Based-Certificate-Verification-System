@@ -12,29 +12,38 @@ module.exports = async function certificateTemplate(data) {
     size: "A4",
   });
 
+  // Load your image
+  const backgroundImage = `${publicPath}/assets/background2.jpg`;
+
+  // Add the image to the document
+  doc.image(backgroundImage, 0, 0, {
+    width: doc.page.width,
+    height: doc.page.height,
+  });
+
   function jumpLine(doc, lines) {
     for (let index = 0; index < lines; index++) {
       doc.moveDown();
     }
   }
 
-  doc.rect(0, 0, doc.page.width, doc.page.height).fill("#fff");
+  // doc.rect(0, 0, doc.page.width, doc.page.height).fill("#fff");
 
   doc.fontSize(10);
 
   const distanceMargin = 18;
 
-  doc
-    .fillAndStroke("#254085")
-    .lineWidth(20)
-    .lineJoin("round")
-    .rect(
-      distanceMargin,
-      distanceMargin,
-      doc.page.width - distanceMargin * 2,
-      doc.page.height - distanceMargin * 2
-    )
-    .stroke();
+  // doc
+  //   .fillAndStroke("#254085")
+  //   .lineWidth(20)
+  //   .lineJoin("round")
+  //   .rect(
+  //     distanceMargin,
+  //     distanceMargin,
+  //     doc.page.width - distanceMargin * 2,
+  //     doc.page.height - distanceMargin * 2
+  //   )
+  //   .stroke();
 
   const maxWidth = 140;
   const maxHeight = 70;
@@ -136,7 +145,7 @@ module.exports = async function certificateTemplate(data) {
 
   // Add signature image for John Doe
   doc.image(
-    `${publicPath}/assets/kelvin-signature1.png`,
+    `${publicPath}/assets/Hod-Signature1.png`,
     startLine1, // Position at the left edge
     signatureHeight - 45, // Adjust this value as needed
     {
@@ -196,7 +205,7 @@ module.exports = async function certificateTemplate(data) {
     .font(`${publicPath}/fonts/NotoSansJP-Light.otf`)
     .fontSize(10)
     .fill("#021c27")
-    .text("Team Lead", startLine3, signatureHeight + 25, {
+    .text("OOU Tech Community Team Lead", startLine3, signatureHeight + 25, {
       columns: 1,
       columnGap: 0,
       height: 40,
@@ -210,6 +219,8 @@ module.exports = async function certificateTemplate(data) {
 
   const linkWidth = doc.widthOfString(link);
   const linkHeight = doc.currentLineHeight();
+
+  jumpLine(doc, 3);
 
   doc
     .underline(doc.page.width / 2 - linkWidth / 2, 448, linkWidth, linkHeight, {
@@ -229,12 +240,21 @@ module.exports = async function certificateTemplate(data) {
       linkHeight
     );
 
-  const bottomHeight = doc.page.height - 100;
+  const bottomHeight = doc.page.height - 105;
 
   const url = await QRCode.toDataURL(link);
 
   doc.image(url, doc.page.width / 2 - 30, bottomHeight, {
     fit: [70, 70],
+  });
+
+  // Load your gold seal image
+  const goldSealImage = `${publicPath}/assets/s1.png`;
+
+  // Add the gold seal image to the document
+  doc.image(goldSealImage, doc.page.width - 150, doc.page.height - 150, {
+    width: 100,
+    height: 80,
   });
 
   return doc;
