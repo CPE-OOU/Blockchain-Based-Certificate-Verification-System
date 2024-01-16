@@ -4,7 +4,7 @@ const PDFDocument = require("pdfkit");
 const { FRONTEND_URL } = require("../../config/contants");
 const QRCode = require("qrcode");
 
-module.exports = async function certificateTemplate(data) {
+module.exports = async function instructorTemplate(data) {
   const publicPath = path.join(process.cwd(), "./public");
 
   const doc = new PDFDocument({
@@ -81,26 +81,28 @@ module.exports = async function certificateTemplate(data) {
       align: "center",
     });
 
-  doc
-    .font(`${publicPath}/fonts/NotoSansJP-Regular.otf`)
-    .fontSize(14)
-    .fill("#021c27")
-    .text("Student Work Experience Programme 2023 ", {
-      align: "center",
-    });
+  //   doc
+  //     .font(`${publicPath}/fonts/NotoSansJP-Regular.otf`)
+  //     .fontSize(14)
+  //     .fill("#021c27")
+  //     .text("Student Work Experience Programme 2023 ", {
+  //       align: "center",
+  //     });
 
-  doc.y += 0.8 * doc.currentLineHeight();
+  jumpLine(doc, 1);
+  //   doc.y += 0.5 * doc.currentLineHeight();
 
   doc
     .font(`${publicPath}/fonts/GreatVibes-Regular.ttf`)
-    .fontSize(18)
+    .fontSize(20)
     .fill("#021c27")
-    .text("This is to certify that", {
+    .text("This proudly acknowledge and honor", {
       align: "center",
     });
 
-  // jumpLine(doc, 1);
+  //   jumpLine(doc, 1);
   doc.y += 0.5 * doc.currentLineHeight();
+
   doc
     .font(`${publicPath}/fonts/NotoSansJP-Bold.otf`)
     .fontSize(24)
@@ -108,21 +110,35 @@ module.exports = async function certificateTemplate(data) {
     .text(`${data.lastname} ${data.firstname} ${data.middlename}`, {
       align: "center",
     });
-  // jumpLine(doc, 1);
+  //   jumpLine(doc, 0.5);
+
   doc
     .font(`${publicPath}/fonts/NotoSansJP-Bold.otf`)
     .fontSize(12)
     .fill("#021c27")
-    .text(`participated in ${data.track} workshop training`, {
-      align: "center",
-    });
-
-  // jumpLine(doc, 1);
+    .text(
+      `For the exceptional mentorship and unwavering support that have guided and nurtured the SWEP participants.`,
+      {
+        align: "center",
+      }
+    );
+  doc.y += 0.5 * doc.currentLineHeight();
   doc
     .font(`${publicPath}/fonts/NotoSansJP-Light.otf`)
     .fontSize(12)
     .fill("#021c27")
-    .text(`From 4th to 9th December 2023`, {
+    .text(
+      `This acknowledges the significant contributions made towards the growth and development of students in`,
+      {
+        align: "center",
+      }
+    );
+  doc.y += 0.2 * doc.currentLineHeight();
+  doc
+    .font(`${publicPath}/fonts/NotoSansJP-Light.otf`)
+    .fontSize(12)
+    .fill("#021c27")
+    .text(`Computer Engineering Department`, {
       align: "center",
     });
 
@@ -131,26 +147,26 @@ module.exports = async function certificateTemplate(data) {
   doc.lineWidth(1);
 
   const lineSize = 174;
-  const signatureHeight = 405;
+  const signatureHeight = 442; ///  adjust the signature line
 
   doc.fillAndStroke("#021c27");
   doc.strokeOpacity(0.2);
 
-  const startLine1 = 128;
-  const endLine1 = 128 + lineSize;
+  const startLine1 = 330;
+  const endLine1 = 330 + lineSize;
   doc
     .moveTo(startLine1, signatureHeight)
     .lineTo(endLine1, signatureHeight)
     .stroke();
 
-  const endLine2 = 490;
+  //   const endLine2 = 490;
 
-  const startLine3 = endLine2 + 32;
-  const endLine3 = startLine3 + lineSize;
-  doc
-    .moveTo(startLine3, signatureHeight)
-    .lineTo(endLine3, signatureHeight)
-    .stroke();
+  //   const startLine3 = endLine2 + 32;
+  //   const endLine3 = startLine3 + lineSize;
+  //   doc
+  //     .moveTo(startLine3, signatureHeight)
+  //     .lineTo(endLine3, signatureHeight)
+  //     .stroke();
 
   jumpLine(doc, 5); ///This is not working plese check
   // Add signature image for John Doe
@@ -188,40 +204,40 @@ module.exports = async function certificateTemplate(data) {
       align: "center",
     });
 
-  // Add signature image for the Director
-  doc.image(
-    `${publicPath}/assets/kelvin-signature1.png`,
-    startLine3, // Position at the right edge
-    signatureHeight - 45, // Adjust this value as needed
-    {
-      fit: [lineSize, 50], // Adjust these values as needed
-      align: "center",
-    }
-  );
+  //   // Add signature image for the Director
+  //   doc.image(
+  //     `${publicPath}/assets/kelvin-signature1.png`,
+  //     startLine3, // Position at the right edge
+  //     signatureHeight - 45, // Adjust this value as needed
+  //     {
+  //       fit: [lineSize, 40], // Adjust these values as needed
+  //       align: "center",
+  //     }
+  //   );
 
-  doc
-    .font(`${publicPath}/fonts/NotoSansJP-Bold.otf`)
-    .fontSize(10)
-    .fill("#021c27")
-    .text("Eniola Kelvin", startLine3, signatureHeight + 10, {
-      columns: 1,
-      columnGap: 0,
-      height: 40,
-      width: lineSize,
-      align: "center",
-    });
+  //   doc
+  //     .font(`${publicPath}/fonts/NotoSansJP-Bold.otf`)
+  //     .fontSize(10)
+  //     .fill("#021c27")
+  //     .text("Eniola Kelvin", startLine3, signatureHeight + 10, {
+  //       columns: 1,
+  //       columnGap: 0,
+  //       height: 40,
+  //       width: lineSize,
+  //       align: "center",
+  //     });
 
-  doc
-    .font(`${publicPath}/fonts/NotoSansJP-Light.otf`)
-    .fontSize(10)
-    .fill("#021c27")
-    .text("OOU Tech Community Team Lead", startLine3, signatureHeight + 25, {
-      columns: 1,
-      columnGap: 0,
-      height: 40,
-      width: lineSize,
-      align: "center",
-    });
+  //   doc
+  //     .font(`${publicPath}/fonts/NotoSansJP-Light.otf`)
+  //     .fontSize(10)
+  //     .fill("#021c27")
+  //     .text("OOU Tech Community Team Lead", startLine3, signatureHeight + 25, {
+  //       columns: 1,
+  //       columnGap: 0,
+  //       height: 40,
+  //       width: lineSize,
+  //       align: "center",
+  //     });
 
   // jumpLine(doc, 10);
 
@@ -233,10 +249,10 @@ module.exports = async function certificateTemplate(data) {
   // jumpLine(doc, 10);
 
   doc
-    .underline(doc.page.width / 2 - linkWidth / 2, 478, linkWidth, linkHeight, {
+    .underline(doc.page.width / 2 - linkWidth / 2, 505, linkWidth, linkHeight, {
       color: "#021c27",
     })
-    .link(doc.page.width / 2 - linkWidth / 2, 478, linkWidth, linkHeight, link);
+    .link(doc.page.width / 2 - linkWidth / 2, 505, linkWidth, linkHeight, link);
 
   doc
     .font(`${publicPath}/fonts/NotoSansJP-Light.otf`)
@@ -245,17 +261,17 @@ module.exports = async function certificateTemplate(data) {
     .text(
       `Certificate ID: ${data.certificateId}`,
       doc.page.width / 2 - linkWidth / 2,
-      478,
+      505,
       linkWidth,
       linkHeight
     );
 
-  const bottomHeight = doc.page.height - 80;
+  const bottomHeight = doc.page.height - 70; // adjust barcode line
 
   const url = await QRCode.toDataURL(link);
 
   doc.image(url, doc.page.width / 2 - 30, bottomHeight, {
-    fit: [70, 70],
+    fit: [60, 60],
   });
 
   // Load your gold seal image

@@ -4,6 +4,7 @@ const {
   getCertificate,
   createCertificate,
   createSwepCertificate,
+  createInstructorSwepCertificate,
   updateCertificate,
   // deleteCertificate,
   web3,
@@ -46,6 +47,7 @@ router.route("/celo").get(web3);
 router.route("/download/:id").get(downloadCertificate);
 
 router.route("/swep").post(createSwepCertificate);
+router.route("/swep/instructor/").post(createInstructorSwepCertificate);
 
 // router.route("/swep/all/").get(getSwep);
 

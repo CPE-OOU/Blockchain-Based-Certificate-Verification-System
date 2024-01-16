@@ -5,6 +5,7 @@ const SwepModel = require("../model/Swep");
 
 const certificateTemplate = require("./certificateTemplate/certificateTemplate");
 const swepCertificateTemplate = require("./certificateTemplate/swepCertificateTemplate");
+const instructorTemplate = require("./certificateTemplate/instructorTemplate");
 // const { default: puppeteer } = require("puppeteer");
 
 const fs = require("fs");
@@ -420,7 +421,7 @@ exports.updateCertificate = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ success: true, data: Certificate });
 });
 
-// @desc    Delate all certificate
+// @desc    Delete all certificate
 // @route   PUT /api/v1/certificates/:id
 // @access  Private
 
@@ -443,6 +444,10 @@ exports.web3 = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({ success: true, data: account });
 });
+
+// ******************* SWEP Cert ******************** //
+// ******************* SWEP Cert ******************** //
+// ******************* SWEP Cert ******************** //
 
 exports.getSwep = asyncHandler(async (req, res, next) => {
   const Swep = await SwepModel.find();
@@ -507,6 +512,8 @@ exports.createSwepCertificate = asyncHandler(async (req, res, next) => {
     hash.update(fileData);
     const fileHash = hash.digest("hex");
 
+    /////////////// Add to CELO ////////////////////
+
     // const senderAccount = {
     //   address: "0xD263C466E6aA620DF49495A6B6A4a8e49496F06C",
     //   privateKey:
@@ -526,6 +533,8 @@ exports.createSwepCertificate = asyncHandler(async (req, res, next) => {
     // );
 
     // const details = await getTransactionDetails(signedTx.transactionHash);
+
+    /////////////// Add to CELO ////////////////////
 
     const Certificate = await CertificateModel.create({
       matricNo,
@@ -556,6 +565,129 @@ exports.createSwepCertificate = asyncHandler(async (req, res, next) => {
     });
   }
 });
+
+// ******************* End SWEP Cert ******************* //
+// ******************* End SWEP Cert ******************* //
+// ******************* End SWEP Cert ******************* //
+
+// Instructor SWEP Cert ****************************** //
+// Instructor SWEP Cert ****************************** //
+// Instructor SWEP Cert ****************************** //
+
+exports.createInstructorSwepCertificate = asyncHandler(
+  async (req, res, next) => {
+    const { matricNo, lastname, firstname, middlename, track } = req.body;
+
+    const recieveAt = req.body.email;
+    const certificateType = "Swep Instructors";
+    const certificateStatus = "Valid";
+    // const formattedMatricNo = matricNo.trim().toLowerCase();
+
+    // // Check if matricNo is eligible
+    // const eligibleMatricNo = await SwepModel.findOne({
+    //   matricNo: { $regex: new RegExp(`^${formattedMatricNo}$`, "i") },
+    // });
+    // if (!eligibleMatricNo) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "You are not eligible for this certificate.",
+    //   });
+    // }
+
+    // Check if certificate already exists
+    // const existingCertificate = await CertificateModel.findOne({
+    //   matricNo: { $regex: new RegExp(`^${formattedMatricNo}$`, "i") },
+    // });
+    // if (existingCertificate) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message:
+    //       " Your details is undergoing check. Certificate will be sent to your email when approved !!",
+    //   });
+    // }
+
+    try {
+      const certificateId = "SWEP-" + Date.now();
+      const pdfPath = `./certifications/${lastname}-${firstname}-${middlename}.pdf`;
+      const file = pdfPath;
+
+      const doc = await instructorTemplate({
+        ...req.body,
+        certificateId,
+        pdfPath,
+      });
+
+      // Write the PDF document to a file
+      await new Promise((resolve, reject) => {
+        const writeStream = fs.createWriteStream(pdfPath);
+        doc.pipe(writeStream);
+        doc.end();
+        writeStream.on("finish", resolve);
+        writeStream.on("error", reject);
+      });
+
+      // Read the file data and produce the hash
+      const fileData = fs.readFileSync(pdfPath);
+      const hash = crypto.createHash("sha256");
+      hash.update(fileData);
+      const fileHash = hash.digest("hex");
+
+      /////////////// Add to CELO ////////////////////
+
+      // const senderAccount = {
+      //   address: "0xD263C466E6aA620DF49495A6B6A4a8e49496F06C",
+      //   privateKey:
+      //     "0x18424a8c4a250461b3a6b43b9619f6f32ce3dddc70e68746bf6fa25fa86c2b64",
+      // };
+
+      // const recieverAccount = {
+      //   address: "0x22FF4c57Eec278D37a1D9B95E4232F699Cdc2184",
+      //   privateKey:
+      //     "0xb390bdd0b41772049126e36fd0478d60332242c22245037da06a7d534e789afd",
+      // };
+
+      // const signedTx = await signAndSendTransaction(
+      //   senderAccount.privateKey,
+      //   senderAccount.address,
+      //   recieverAccount.address
+      // );
+
+      // const details = await getTransactionDetails(signedTx.transactionHash);
+
+      /////////////// Add to CELO ////////////////////
+
+      const Certificate = await CertificateModel.create({
+        matricNo,
+        lastname,
+        firstname,
+        middlename,
+        certificateStatus,
+        certificateType,
+        track,
+        recieveAt,
+        certificateId,
+        fileHash,
+        file,
+      });
+
+      res.status(201).json({
+        success: true,
+        data: {
+          certificateId,
+          pdfPath,
+          fileHash,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
+);
+
+// End Instructor SWEP Cert **************************
 
 exports.downloadCertificate = asyncHandler(async (req, res, next) => {
   const Certificate = await CertificateModel.findById(req.params.id);
