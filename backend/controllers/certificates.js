@@ -456,9 +456,14 @@ exports.getSwep = asyncHandler(async (req, res, next) => {
 });
 
 exports.createSwepCertificate = asyncHandler(async (req, res, next) => {
-  const { matricNo, lastname, firstname, middlename, track } = req.body;
+  const matricNo = req.body.matricNo.trimEnd();
+  const lastname = req.body.lastname.trimEnd();
+  const firstname = req.body.firstname.trimEnd();
+  const middlename = req.body.middlename.trimEnd();
+  const track = req.body.track.trimEnd();
 
-  const recieveAt = req.body.email;
+  const recieveAt = req.body.email.trimEnd();
+
   const certificateType = "Swep";
   const certificateStatus = "Valid";
   const formattedMatricNo = matricNo.trim().toLowerCase();
@@ -491,8 +496,17 @@ exports.createSwepCertificate = asyncHandler(async (req, res, next) => {
     const pdfPath = `./certifications/${lastname}-${firstname}-${middlename}.pdf`;
     const file = pdfPath;
 
+    const trimmedBody = {
+      matricNo: req.body.matricNo.trimEnd(),
+      lastname: req.body.lastname.trimEnd(),
+      firstname: req.body.firstname.trimEnd(),
+      middlename: req.body.middlename.trimEnd(),
+      track: req.body.track.trimEnd(),
+      email: req.body.email.trimEnd(),
+    };
+
     const doc = await swepCertificateTemplate({
-      ...req.body,
+      ...trimmedBody,
       certificateId,
       pdfPath,
     });
@@ -570,6 +584,7 @@ exports.createSwepCertificate = asyncHandler(async (req, res, next) => {
 // ******************* End SWEP Cert ******************* //
 // ******************* End SWEP Cert ******************* //
 
+// Instructor SWEP Cert ****************************** //
 // Instructor SWEP Cert ****************************** //
 // Instructor SWEP Cert ****************************** //
 // Instructor SWEP Cert ****************************** //
