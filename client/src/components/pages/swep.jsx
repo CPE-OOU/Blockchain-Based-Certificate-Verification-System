@@ -55,8 +55,8 @@ function Swep() {
         <div>
           <h3>Certificate Data:</h3>
           <p>Matric No: {form.matricNo}</p>
-          <p>Last Name: {form.lastname}</p>
           <p>First Name: {form.firstname}</p>
+          <p>Last Name: {form.lastname}</p>
           <p>Middle Name: {form.middlename}</p>
           <p> Participated in: {form.track}</p>
           <p> Recieve at: {form.email}</p>
@@ -169,10 +169,10 @@ function Swep() {
                       <div className="field-item field-item-s2">
                         <input
                           type="text"
-                          name="lastname"
+                          name="firstname"
                           className="input-bordered required"
-                          placeholder="Last Name"
-                          value={form.lastname || ""}
+                          placeholder="First Name"
+                          value={form.firstname || ""}
                           onChange={handleInputChange}
                           required
                         />
@@ -182,10 +182,10 @@ function Swep() {
                       <div className="field-item field-item-s2">
                         <input
                           type="text"
-                          name="firstname"
+                          name="lastname"
                           className="input-bordered required"
-                          placeholder="First Name"
-                          value={form.firstname || ""}
+                          placeholder="Last Name"
+                          value={form.lastname || ""}
                           onChange={handleInputChange}
                           required
                         />
