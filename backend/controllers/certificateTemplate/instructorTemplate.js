@@ -107,7 +107,7 @@ module.exports = async function instructorTemplate(data) {
     .font(`${publicPath}/fonts/NotoSansJP-Bold.otf`)
     .fontSize(24)
     .fill("#021c27")
-    .text(`${data.lastname} ${data.firstname} ${data.middlename}`, {
+    .text(`${data.firstname} ${data.lastname} ${data.middlename}`, {
       align: "center",
     });
   //   jumpLine(doc, 0.5);

@@ -493,7 +493,7 @@ exports.createSwepCertificate = asyncHandler(async (req, res, next) => {
 
   try {
     const certificateId = "SWEP-" + Date.now();
-    const pdfPath = `./certifications/${lastname}-${firstname}-${middlename}.pdf`;
+    const pdfPath = `./certifications/${firstname}-${lastname}-${middlename}.pdf`;
     const file = pdfPath;
 
     const trimmedBody = {
@@ -594,7 +594,7 @@ exports.createInstructorSwepCertificate = asyncHandler(
     const { matricNo, lastname, firstname, middlename, track } = req.body;
 
     const recieveAt = req.body.email;
-    const certificateType = "Swep Instructors";
+    const certificateType = "SWEP Instructor";
     const certificateStatus = "Valid";
     // const formattedMatricNo = matricNo.trim().toLowerCase();
 
@@ -623,7 +623,7 @@ exports.createInstructorSwepCertificate = asyncHandler(
 
     try {
       const certificateId = "SWEP-" + Date.now();
-      const pdfPath = `./certifications/${lastname}-${firstname}-${middlename}.pdf`;
+      const pdfPath = `./certifications/${firstname}-${lastname}-${middlename}.pdf`;
       const file = pdfPath;
 
       const doc = await instructorTemplate({
