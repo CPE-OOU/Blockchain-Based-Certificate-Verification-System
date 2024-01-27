@@ -204,7 +204,7 @@ function Swep() {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="field-item field-item-s2">
                         <input
                           type="text"
@@ -215,6 +215,29 @@ function Swep() {
                           onChange={handleInputChange}
                           required
                         />
+                      </div>
+                    </div> */}
+                    <div className="col-md-6">
+                      <div className="field-item field-item-s2">
+                        <select
+                          name="track"
+                          className="input-bordered required"
+                          value={form.track || ""}
+                          onChange={handleInputChange}
+                          required
+                        >
+                          <option value="">Select a track</option>
+                          <option value="Cybersecurity">Cybersecurity</option>
+                          <option value="Data Science and Data Analytics">
+                            Data Science
+                          </option>
+                          <option value="Embedded Systems and IoT">
+                            Embedded System
+                          </option>
+                          <option value="Software Engineering">
+                            Software Engineering
+                          </option>
+                        </select>
                       </div>
                     </div>
                   </div>
